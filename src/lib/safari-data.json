@@ -1,0 +1,343 @@
+{
+  "destinations": [
+    {
+      "id": "maasai-mara",
+      "n": "Maasai Mara",
+      "c": "Kenya",
+      "e": "🦁",
+      "h": 32,
+      "t": "Kenya’s legendary savannah",
+      "d": "Known simply as The Mara, this vast reserve in Narok borders Tanzania’s Serengeti and is named for the Maasai people. “Mara” means “spotted”, for the bushy trees dotting the plains.",
+      "b": "Jul–Oct (migration); Jan–Feb",
+      "l": [
+        "Big cats and the Big Five",
+        "Wildebeest migration river crossings",
+        "Maasai cultural visits",
+        "Hot air balloon at sunrise"
+      ]
+    },
+    {
+      "id": "amboseli",
+      "n": "Amboseli",
+      "c": "Kenya",
+      "e": "🐘",
+      "h": 200,
+      "t": "Elephants beneath Kilimanjaro",
+      "d": "Famous for large elephant herds and postcard views of Mount Kilimanjaro across the plains.",
+      "b": "Jun–Oct; Jan–Feb",
+      "l": [
+        "Big elephant herds",
+        "Kilimanjaro backdrop",
+        "Observation Hill views",
+        "Swamps rich in birdlife"
+      ]
+    },
+    {
+      "id": "nakuru",
+      "n": "Nakuru",
+      "c": "Kenya",
+      "e": "🦩",
+      "h": 330,
+      "t": "Lake, rhinos and flamingos",
+      "d": "A compact Rift Valley park built around a soda lake, known for birdlife and both black and white rhinos.",
+      "b": "Year-round",
+      "l": [
+        "Flamingos and 400+ bird species",
+        "Rhino sanctuary",
+        "Baboon Cliff viewpoint",
+        "Leopards and lions"
+      ]
+    },
+    {
+      "id": "nairobi",
+      "n": "Nairobi",
+      "c": "Kenya",
+      "e": "🦒",
+      "h": 90,
+      "t": "Wildlife next to the city",
+      "d": "Nairobi National Park sits minutes from the skyline, with lions, rhinos and giraffes, plus the Giraffe Centre and elephant orphanage.",
+      "b": "Year-round",
+      "l": [
+        "Game drive with city skyline",
+        "Giraffe Centre",
+        "Elephant orphanage",
+        "Karen Blixen Museum"
+      ]
+    },
+    {
+      "id": "samburu",
+      "n": "Samburu",
+      "c": "Kenya",
+      "e": "🦓",
+      "h": 20,
+      "t": "Rare species of the north",
+      "d": "A rugged northern reserve along the Ewaso Ng’iro river, home to species rarely seen elsewhere in Kenya.",
+      "b": "Jun–Oct; Dec–Mar",
+      "l": [
+        "Grevy’s zebra and reticulated giraffe",
+        "Gerenuk and Beisa oryx",
+        "Riverside elephants",
+        "Samburu culture"
+      ]
+    },
+    {
+      "id": "tsavo",
+      "n": "Tsavo",
+      "c": "Kenya",
+      "e": "🐘",
+      "h": 12,
+      "t": "Kenya’s largest park",
+      "d": "Vast wilderness split into Tsavo East and West, known for red-dust elephants and wide open landscapes.",
+      "b": "Jun–Oct; Jan–Feb",
+      "l": ["Red elephants", "Mzima Springs", "Lugard’s Falls", "Huge, uncrowded plains"]
+    },
+    {
+      "id": "mombasa",
+      "n": "Mombasa",
+      "c": "Kenya",
+      "e": "🏖️",
+      "h": 185,
+      "t": "Beaches and old town",
+      "d": "Kenya’s coast pairs white-sand beaches with centuries of Swahili history, ideal after a bush safari.",
+      "b": "Dec–Mar; Jul–Oct",
+      "l": ["Diani and Nyali beaches", "Fort Jesus", "Old Town walks", "Snorkelling and dhow trips"]
+    },
+    {
+      "id": "naivasha",
+      "n": "Naivasha",
+      "c": "Kenya",
+      "e": "🦛",
+      "h": 170,
+      "t": "Rift Valley lake escape",
+      "d": "A freshwater lake with hippos, birdlife and easy outdoor activities close to Nairobi.",
+      "b": "Year-round",
+      "l": [
+        "Boat rides among hippos",
+        "Crescent Island walks",
+        "Hell’s Gate cycling",
+        "Birdwatching"
+      ]
+    },
+    {
+      "id": "nanyuki",
+      "n": "Nanyuki",
+      "c": "Kenya",
+      "e": "🌍",
+      "h": 140,
+      "t": "Gateway to the equator",
+      "d": "A highland town on the equator, base for Mount Kenya and conservancies such as Ol Pejeta.",
+      "b": "Jan–Mar; Jul–Oct",
+      "l": [
+        "Equator crossing",
+        "Ol Pejeta conservancy",
+        "Chimpanzee sanctuary",
+        "Mount Kenya views"
+      ]
+    },
+    {
+      "id": "aberdare-ranges",
+      "n": "Aberdare Ranges",
+      "c": "Kenya",
+      "e": "🌲",
+      "h": 120,
+      "t": "Misty forests and waterfalls",
+      "d": "A highland range of moorland, forest and waterfalls, with wildlife seen from lodges overlooking waterholes.",
+      "b": "Jan–Feb; Jun–Sep",
+      "l": [
+        "Waterhole game viewing",
+        "Chania and Karuru Falls",
+        "Cool forest scenery",
+        "Elephants and buffalo"
+      ]
+    },
+    {
+      "id": "mount-kenya",
+      "n": "Mt. Kenya",
+      "c": "Kenya",
+      "e": "🏔️",
+      "h": 215,
+      "t": "Africa’s second-highest peak",
+      "d": "A glaciated equatorial mountain with treks through forest, bamboo and moorland.",
+      "b": "Jan–Feb; Aug–Sep",
+      "l": ["Trekking routes", "Alpine lakes", "Unique mountain flora", "Sunrise at the peaks"]
+    },
+    {
+      "id": "murchison-falls-uganda",
+      "n": "Murchison Falls",
+      "c": "Uganda",
+      "e": "💦",
+      "h": 195,
+      "t": "The Nile’s mighty squeeze",
+      "d": "Uganda’s largest park, where the Nile forces through a narrow gorge into a thundering waterfall.",
+      "b": "Dec–Feb; Jun–Sep",
+      "l": [
+        "Top of the falls hike",
+        "Nile boat safari",
+        "Giraffes and lions",
+        "Hippos and crocodiles"
+      ]
+    },
+    {
+      "id": "bwindi-national-park-uganda",
+      "n": "Bwindi National Park",
+      "c": "Uganda",
+      "e": "🦍",
+      "h": 130,
+      "t": "Mountain gorilla trekking",
+      "d": "An ancient rainforest sheltering roughly half of the world’s mountain gorillas.",
+      "b": "Jun–Aug; Dec–Feb",
+      "l": [
+        "Gorilla trekking",
+        "Forest birdlife",
+        "Batwa cultural experience",
+        "Misty hill scenery"
+      ]
+    },
+    {
+      "id": "kilimanjaro-tanzania",
+      "n": "Kilimanjaro",
+      "c": "Tanzania",
+      "e": "⛰️",
+      "h": 250,
+      "t": "Africa’s highest summit",
+      "d": "A freestanding volcano rising 5,895 m, with several routes from rainforest to glaciers.",
+      "b": "Jan–Mar; Jun–Oct",
+      "l": [
+        "Multi-day climbs",
+        "Rainforest to ice zones",
+        "Uhuru Peak sunrise",
+        "Machame and Marangu routes"
+      ]
+    },
+    {
+      "id": "serengeti-tanzania",
+      "n": "Serengeti",
+      "c": "Tanzania",
+      "e": "🦬",
+      "h": 45,
+      "t": "Endless plains, great migration",
+      "d": "Tanzania’s iconic park, adjoining the Mara, famed for the year-round movement of the wildebeest herds.",
+      "b": "Jun–Oct; Jan–Mar",
+      "l": ["Great migration", "Big cat sightings", "Endless plains", "Balloon safaris"]
+    }
+  ],
+  "packages": [
+    {
+      "id": "3-day-maasai-mara-safari",
+      "n": "3-Day Maasai Mara Safari",
+      "t": "Spend three days in the vast Maasai Mara grassland",
+      "days": 3,
+      "ds": ["maasai-mara"],
+      "h": 32,
+      "it": [
+        [
+          "Nairobi to the Mara",
+          "Drive from Nairobi, check in, and head out on an afternoon game drive."
+        ],
+        [
+          "Full day in the Mara",
+          "Morning and afternoon game drives. Optional balloon safari or Maasai village visit."
+        ],
+        ["Return to Nairobi", "A final early game drive, then the drive back to Nairobi."]
+      ]
+    },
+    {
+      "id": "3-day-amboseli-safari",
+      "n": "3-Day Amboseli Safari",
+      "t": "2 nights in Amboseli, home of the great land mammal",
+      "days": 3,
+      "ds": ["amboseli"],
+      "h": 200,
+      "it": [
+        ["Nairobi to Amboseli", "Drive south and settle in, with an afternoon game drive."],
+        [
+          "Elephants and Kilimanjaro",
+          "Sunrise and afternoon drives among elephant herds with the mountain as backdrop."
+        ],
+        ["Return to Nairobi", "A morning drive, then back to Nairobi."]
+      ]
+    },
+    {
+      "id": "5-day-maasai-mara-nakuru-naivasha-safari",
+      "n": "5-Day Maasai Mara, Nakuru & Naivasha Safari",
+      "t": "Takes you to the great Rift Valley destinations",
+      "days": 5,
+      "ds": ["maasai-mara", "nakuru", "naivasha"],
+      "h": 150,
+      "it": [
+        ["Nairobi to the Mara", "Drive to the Mara with an afternoon game drive."],
+        ["Full day in the Mara", "Game drives across the plains."],
+        ["Mara to Nakuru", "Travel to Lake Nakuru for an evening drive among rhinos and birdlife."],
+        ["Nakuru to Naivasha", "Morning at Nakuru, then a boat ride on Lake Naivasha."],
+        ["Return to Nairobi", "Relaxed morning and drive back to Nairobi."]
+      ]
+    },
+    {
+      "id": "6-day-maasai-mara-nakuru-amboseli-safari",
+      "n": "6-Day Maasai Mara, Nakuru & Amboseli Safari",
+      "t": "A memorable journey to see the beauty of Kenya",
+      "days": 6,
+      "ds": ["maasai-mara", "nakuru", "amboseli"],
+      "h": 340,
+      "it": [
+        ["Nairobi to the Mara", "Drive west and take an afternoon game drive."],
+        ["Full day in the Mara", "Morning and afternoon game drives."],
+        ["Mara to Nakuru", "Travel to Lake Nakuru and take an evening drive."],
+        ["Full day at Nakuru", "Flamingos, rhinos and Baboon Cliff viewpoint."],
+        ["Nakuru to Amboseli", "Long scenic drive to Amboseli with a late game drive."],
+        ["Return to Nairobi", "Morning drive with Kilimanjaro views, then back to Nairobi."]
+      ]
+    }
+  ],
+  "experiences": [
+    [
+      "Game drives",
+      "🚙",
+      "Set out with your guide across open plains and woodlands, watching for wildlife and the small details along the way."
+    ],
+    [
+      "Boat rides",
+      "🚤",
+      "Drift across Rift Valley waters among hippos and birdlife, with escarpment views on the horizon."
+    ],
+    [
+      "Hot air balloon",
+      "🎈",
+      "Lift off at sunrise for a sweeping view of the savannah and its wildlife from above."
+    ],
+    [
+      "Flying safari",
+      "✈️",
+      "Connect remote parks by air and trade long road transfers for wide views of the landscapes below."
+    ],
+    [
+      "Cultural excursions",
+      "🪘",
+      "Join locally led visits to learn about everyday life, heritage and traditions from the people who call this region home."
+    ],
+    [
+      "Hiking",
+      "🥾",
+      "Follow scenic trails through gorges, forest and highland landscapes, with time to stop and take it all in."
+    ]
+  ],
+  "faq": [
+    [
+      "How do I book?",
+      "Send us your dates and group size through the contact page or WhatsApp. We reply with a plan and a price, and nothing is booked until you confirm."
+    ],
+    [
+      "Can I change an itinerary?",
+      "Yes. Every package is a starting point and can be tailored to your dates, group and interests."
+    ],
+    [
+      "When is the best time to go?",
+      "The Mara migration is generally July to October, while January and February are good dry-season months across Kenya."
+    ],
+    [
+      "Do you offer Uganda and Tanzania trips?",
+      "Yes. We arrange trips to Murchison Falls, Bwindi, Kilimanjaro and the Serengeti on request."
+    ],
+    ["Is support available during my trip?", "Yes, our team offers 24/7 support to clients."]
+  ]
+}
