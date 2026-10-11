@@ -50,7 +50,7 @@ function Page() {
             <p className="text-muted-foreground mb-6">
               Tell us when and with whom, and we’ll shape the trip.
             </p>
-            <Button asChild variant="forest">
+            <Button asChild variant="forest" className="whatsapp-enquire">
               <a
                 href={whatsapp(`Hello Bushbells Safaris, I’d like to visit ${d.n}.`)}
                 target="_blank"

@@ -35,20 +35,32 @@ function Page() {
                 {p.days > 1 ? ` · ${p.days - 1} nights` : ""}
               </div>
               <div>
-                <small>Pricing</small>Request a tailored quote
+                <small>Estimated price per person (USD)</small>{p.priceEstimate}
               </div>
               <div>
                 <small>Departure</small>Nairobi
               </div>
             </div>
+            <p className="pricing-note">Indicative SafariBookings prices for two travelers. Rates vary with season, availability, accommodation and final inclusions; request a current quote.</p>
             <h2>About this safari</h2>
             <p>{p.t}</p>
             <h3>Destinations on this journey</h3>
-            <ul>
-              {p.ds.map((id) => (
-                <li key={id}>{destinations.find((d) => d.id === id)?.n ?? id}</li>
-              ))}
-            </ul>
+            <ol className="journey-wave" aria-label="Destinations in route order">
+              {p.ds.map((id, index) => {
+                const place = destinations.find((destination) => destination.id === id);
+                return (
+                  <li
+                    key={id}
+                    className={index % 2 ? "journey-stop journey-stop-low" : "journey-stop"}
+                  >
+                    <span className="journey-stop-number" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <strong>{place?.n ?? id}</strong>
+                  </li>
+                );
+              })}
+            </ol>
             <Button asChild variant="outline">
               <a href={p.source} target="_blank" rel="noreferrer">
                 View original SafariBookings listing <ArrowRight />

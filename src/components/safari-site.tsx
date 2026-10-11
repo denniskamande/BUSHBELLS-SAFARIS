@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -7,6 +7,8 @@ import {
   MessageCircle,
   Mail,
   MapPin,
+  Moon,
+  Sun,
   Clock,
   ChevronLeft,
   ChevronRight,
@@ -38,6 +40,13 @@ export function Brand() {
 }
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [planOpen, setPlanOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
+    const enabled = window.localStorage.getItem("bushbells-theme") === "dark";
+    setDarkMode(enabled);
+    document.documentElement.dataset.theme = enabled ? "dark" : "light";
+  }, []);
   return (
     <header className="site-header">
       <div className="wrap header-inner">
@@ -49,11 +58,38 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Button asChild variant="safari" className="header-cta">
-          <Link to="/contact">
-            Plan my trip <ArrowRight />
-          </Link>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="theme-toggle"
+          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          aria-pressed={darkMode}
+          title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          onClick={() => {
+            const nextMode = !darkMode;
+            setDarkMode(nextMode);
+            document.documentElement.dataset.theme = nextMode ? "dark" : "light";
+            window.localStorage.setItem("bushbells-theme", nextMode ? "dark" : "light");
+          }}
+        >
+          {darkMode ? <Sun /> : <Moon />}
         </Button>
+        <div className="plan-trip-wrap">
+          <Button
+            variant="safari"
+            className="header-cta"
+            aria-expanded={planOpen}
+            aria-controls="plan-trip-picker"
+            onClick={() => setPlanOpen(!planOpen)}
+          >
+            Plan my trip <ArrowRight />
+          </Button>
+          {planOpen && (
+            <div className="plan-trip-picker" id="plan-trip-picker">
+              <EnquiryForm />
+            </div>
+          )}
+        </div>
         <Button
           variant="ghost"
           size="icon"
@@ -206,8 +242,8 @@ export function PackageCard({ p }: { p: (typeof packages)[number] }) {
         <p className="package-summary">{p.t}</p>
         <div className="package-bottom">
           <div>
-            <small>Pricing tailored to your trip</small>
-            <strong>Request a quote</strong>
+            <small>Estimated per person (USD)</small>
+            <strong>{p.priceEstimate}</strong>
           </div>
           <span className="package-read-more">
             View safari <ArrowRight />
@@ -245,6 +281,7 @@ export function EnquiryForm({
   compact?: boolean;
 }) {
   const [method, setMethod] = useState<"whatsapp" | "email">("whatsapp");
+  const formId = useId();
   return (
     <form
       className="enquiry-panel"
@@ -263,16 +300,16 @@ export function EnquiryForm({
       <h2>{compact ? "Make this journey yours" : "Plan my trip"}</h2>
       <div className="form-grid">
         <div>
-          <label htmlFor="name">Your name</label>
-          <input id="name" name="name" placeholder="Full name" required />
+          <label htmlFor={`${formId}-name`}>Your name</label>
+          <input id={`${formId}-name`} name="name" placeholder="Full name" required />
         </div>
         <div>
-          <label htmlFor="email">Email address</label>
-          <input id="email" type="email" name="email" placeholder="you@example.com" required />
+          <label htmlFor={`${formId}-email`}>Email address</label>
+          <input id={`${formId}-email`} type="email" name="email" placeholder="you@example.com" required />
         </div>
         <div className="form-wide">
-          <label htmlFor="package">Your safari</label>
-          <select id="package" name="package" defaultValue={initialPackage}>
+          <label htmlFor={`${formId}-package`}>Your safari</label>
+          <select id={`${formId}-package`} name="package" defaultValue={initialPackage}>
             <option>Custom trip</option>
             {packages.map((p) => (
               <option key={p.id}>{p.n}</option>
@@ -280,21 +317,21 @@ export function EnquiryForm({
           </select>
         </div>
         <div>
-          <label htmlFor="travellers">Travellers</label>
-          <select id="travellers" name="travellers" defaultValue="2">
+          <label htmlFor={`${formId}-travellers`}>Travellers</label>
+          <select id={`${formId}-travellers`} name="travellers" defaultValue="2">
             {Array.from({ length: 8 }, (_, i) => (
               <option key={i}>{i + 1}</option>
             ))}
           </select>
         </div>
         <div>
-          <label htmlFor="date">Travel date</label>
-          <input id="date" type="date" name="date" />
+          <label htmlFor={`${formId}-date`}>Travel date</label>
+          <input id={`${formId}-date`} type="date" name="date" />
         </div>
         <div className="form-wide">
-          <label htmlFor="contact-method">Preferred contact method</label>
+          <label htmlFor={`${formId}-contact-method`}>Preferred contact method</label>
           <select
-            id="contact-method"
+            id={`${formId}-contact-method`}
             value={method}
             onChange={(e) => setMethod(e.target.value as "whatsapp" | "email")}
           >
@@ -303,9 +340,9 @@ export function EnquiryForm({
           </select>
         </div>
         <div className="form-wide">
-          <label htmlFor="message">Anything else?</label>
+          <label htmlFor={`${formId}-message`}>Anything else?</label>
           <textarea
-            id="message"
+            id={`${formId}-message`}
             name="message"
             rows={3}
             placeholder="Your interests, preferred stays, or questions…"

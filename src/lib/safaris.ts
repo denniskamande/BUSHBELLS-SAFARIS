@@ -188,7 +188,7 @@ export const destinations = [...data.destinations, ...extraDestinations].map((de
       }
     : destination,
 );
-export const packages = operatorTours;
+export const packages = operatorTours.slice().sort((a, b) => a.days - b.days);
 export const { experiences, faq } = data;
 export const images = { hero, mara, amboseli, nakuru };
 const destinationPhotos: Record<string, string> = {

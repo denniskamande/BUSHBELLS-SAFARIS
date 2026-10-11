@@ -2,6 +2,7 @@
 export const operatorTours = [
   {
     id: "6-day-aberdare-nanyuki-nakuru-mara",
+    priceEstimate: "$4,609–$5,070",
     n: "6-Day Aberdare, Nanyuki, Nakuru and Masai Mara",
     duration: "6 days",
     days: 6,
@@ -13,6 +14,7 @@ export const operatorTours = [
   },
   {
     id: "4-day-lakes-savannah-eco-escapes",
+    priceEstimate: "$3,458–$4,383",
     n: "4-Day Lakes and Savannah Eco Escapes Safari",
     duration: "4 days",
     days: 4,
@@ -24,6 +26,7 @@ export const operatorTours = [
   },
   {
     id: "3-day-magical-savannah",
+    priceEstimate: "$1,000–$1,600",
     n: "3-Day Magical Savannah Safari",
     duration: "3 days",
     days: 3,
@@ -35,6 +38,7 @@ export const operatorTours = [
   },
   {
     id: "10-day-wild-escapes-major-parks",
+    priceEstimate: "$4,202–$4,843",
     n: "10-Day Wild Escapes Calls in All Major Parks Adventure",
     duration: "10 days",
     days: 10,
@@ -46,6 +50,7 @@ export const operatorTours = [
   },
   {
     id: "3-day-amboseli-sentrim",
+    priceEstimate: "$1,248–$1,373",
     n: "3-Day Amboseli Staying at Sentrim Amboseli Lodge",
     duration: "3 days",
     days: 3,
@@ -57,6 +62,7 @@ export const operatorTours = [
   },
   {
     id: "3-day-lets-explore-amboseli",
+    priceEstimate: "$1,053–$1,187",
     n: "3-Day Let’s Explore Amboseli – Basin of Kilimanjaro",
     duration: "3 days",
     days: 3,
@@ -68,6 +74,7 @@ export const operatorTours = [
   },
   {
     id: "3-day-tsavo-west-wonders",
+    priceEstimate: "$1,050–$1,350",
     n: "3-Day Wonders of the Tsavo West National Park",
     duration: "3 days",
     days: 3,
@@ -79,6 +86,7 @@ export const operatorTours = [
   },
   {
     id: "7-day-amboseli-naivasha-nakuru-mara",
+    priceEstimate: "$3,922–$4,314",
     n: "7-Day Amboseli, Naivasha, Nakuru and Masai Mara",
     duration: "7 days",
     days: 7,
@@ -90,6 +98,7 @@ export const operatorTours = [
   },
   {
     id: "9-day-samburu-nanyuki-nakuru-mara",
+    priceEstimate: "$6,097–$6,707",
     n: "9-Day Wonders of Samburu, Nanyuki, Nakuru and Masai Mara",
     duration: "9 days",
     days: 9,
@@ -101,6 +110,7 @@ export const operatorTours = [
   },
   {
     id: "6-day-amboseli-naivasha-mara",
+    priceEstimate: "$2,198–$2,954",
     n: "6-Day Amboseli, Lake Naivasha and Mara",
     duration: "6 days",
     days: 6,
@@ -112,6 +122,7 @@ export const operatorTours = [
   },
   {
     id: "6-day-mara-nakuru-amboseli",
+    priceEstimate: "$2,238–$2,954",
     n: "6-Day Fullness of Masai Mara, Nakuru and Amboseli",
     duration: "6 days",
     days: 6,
@@ -123,6 +134,7 @@ export const operatorTours = [
   },
   {
     id: "11-day-safari-beach-extension",
+    priceEstimate: "$6,057–$9,365",
     n: "11-Day Safari Experience with a Beach Extension",
     duration: "11 days",
     days: 11,
@@ -134,9 +146,10 @@ export const operatorTours = [
   },
   {
     id: "half-day-nairobi-national-park",
+    priceEstimate: "$183–$252",
     n: "½-Day Nairobi National Park Only Excursion",
     duration: "Half day",
-    days: 1,
+    days: 0.5,
     ds: ["nairobi"],
     t: "Start your day with a safari to Nairobi National Park. Choose a 06:00 pickup and explore the park until 09:30, a 10:00 pickup until 12:30, or a 15:30 pickup until 18:00. The excursion ends with a drop-off at your preferred location within Nairobi.",
     h: 90,
@@ -145,6 +158,7 @@ export const operatorTours = [
   },
   {
     id: "1-day-nakuru-naivasha",
+    priceEstimate: "$309–$329",
     n: "1-Day Nakuru National Park & Lake Naivasha",
     duration: "1 day",
     days: 1,

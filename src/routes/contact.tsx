@@ -3,6 +3,9 @@ import { MapPin, Mail, Phone, MessageCircle } from "lucide-react";
 import { PageHeading, EnquiryForm } from "@/components/safari-site";
 import { pageHead, whatsapp } from "@/lib/safaris";
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    safari: typeof search.safari === "string" ? search.safari : undefined,
+  }),
   head: () =>
     pageHead(
       "Plan Your Trip",
@@ -11,6 +14,7 @@ export const Route = createFileRoute("/contact")({
   component: Page,
 });
 function Page() {
+  const { safari } = Route.useSearch();
   return (
     <main>
       <PageHeading
@@ -50,7 +54,7 @@ function Page() {
             <h3>Here for you, 24/7.</h3>
             <p>Personal support before, during and after your safari.</p>
           </div>
-          <EnquiryForm />
+          <EnquiryForm initialPackage={safari ?? "Custom trip"} />
         </div>
       </section>
     </main>
