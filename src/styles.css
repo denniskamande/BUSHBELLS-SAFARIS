@@ -886,6 +886,10 @@ textarea {
   .wrap {
     padding: 0 22px;
   }
+  .package-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
   .page-heading {
     padding: 42px 0 32px;
   }
