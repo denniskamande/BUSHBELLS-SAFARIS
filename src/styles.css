@@ -743,14 +743,47 @@ textarea {
 .day-number {
   position: absolute;
   top: 0;
-  left: -15px;
-  width: 30px;
-  height: 30px;
-  background: var(--secondary);
+  left: -18px;
+  width: 36px;
+  height: 36px;
+  background: var(--forest);
+  color: var(--on-forest);
   display: grid;
   place-items: center;
   border-radius: 50%;
-  font-size: 12px;
+  border: 3px solid var(--background);
+  box-shadow: 0 0 0 1px var(--border), 0 3px 10px rgb(0 0 0 / 14%);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.destination-highlights {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+}
+.destination-highlights li {
+  position: relative;
+  padding: 12px 16px 12px 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--foreground);
+  line-height: 1.55;
+}
+.destination-highlights li::before {
+  content: "";
+  position: absolute;
+  left: 17px;
+  top: 18px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
 }
 .day h3,
 .day .itinerary-day-title {

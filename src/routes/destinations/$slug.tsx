@@ -39,7 +39,7 @@ function Page() {
               </div>
             </div>
             <h3>Highlights</h3>
-            <ul>
+            <ul className="destination-highlights">
               {d.l.map((l) => (
                 <li key={l}>{l}</li>
               ))}

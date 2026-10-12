@@ -47,7 +47,7 @@ function Page() {
               {p.it.map(([title, description], index) => (
                 <article className="day" key={`${p.id}-day-${index + 1}`}>
                   <span className="day-number" aria-hidden="true">
-                    {p.days < 1 ? "½" : index + 1}
+                    {p.days < 1 ? "½" : String(index + 1).padStart(2, "0")}
                   </span>
                   <h4 className="itinerary-day-title">
                     {p.days < 1 ? "Half-day" : `Day ${index + 1}`} · {title}

@@ -32,6 +32,7 @@ function AdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signedIn, setSignedIn] = useState(false);
+  const [adminAccess, setAdminAccess] = useState<"checking" | "allowed" | "denied">("checking");
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [caption, setCaption] = useState("");
   const [altText, setAltText] = useState("");
@@ -55,14 +56,30 @@ function AdminPage() {
   }, [supabase]);
 
   useEffect(() => {
-    if (!signedIn) {
+    if (!supabase || !signedIn) {
+      setAdminAccess("checking");
+      return;
+    }
+
+    let current = true;
+    setAdminAccess("checking");
+    void supabase.rpc("is_gallery_admin").then(({ data, error: accessError }) => {
+      if (current) setAdminAccess(!accessError && data === true ? "allowed" : "denied");
+    });
+    return () => {
+      current = false;
+    };
+  }, [supabase, signedIn]);
+
+  useEffect(() => {
+    if (!signedIn || adminAccess !== "allowed") {
       setPhotos([]);
       return;
     }
     void refreshPhotos().catch((reason: unknown) =>
       setError(reason instanceof Error ? reason.message : "Could not load the gallery."),
     );
-  }, [signedIn, refreshPhotos]);
+  }, [signedIn, adminAccess, refreshPhotos]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -197,6 +214,16 @@ function AdminPage() {
                 Admin accounts are created in Supabase by the site owner.
               </p>
             </form>
+          ) : adminAccess === "checking" ? (
+            <p className="admin-note" role="status">Checking gallery admin access…</p>
+          ) : adminAccess === "denied" ? (
+            <div className="enquiry-panel admin-login" role="status">
+              <h2>Admin access required</h2>
+              <p>This account does not have permission to manage gallery photos.</p>
+              <Button variant="outline" onClick={() => void supabase.auth.signOut()}>
+                <LogOut /> Sign out
+              </Button>
+            </div>
           ) : (
             <>
               <div className="admin-toolbar">
