@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   galleryPhotoUrl,
@@ -92,11 +91,6 @@ export function Gallery() {
           </Button>
         ))}
       </div>
-      <p className="gallery-admin-link">
-        <Link to="/admin">
-          Manage gallery photos <ArrowRight size={14} />
-        </Link>
-      </p>
       {current !== null && (
         <div
           className="lightbox"

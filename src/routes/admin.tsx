@@ -83,7 +83,10 @@ function AdminPage() {
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!supabase) return;
+    if (!supabase) {
+      setError("Gallery sign-in is currently unavailable. Please connect the gallery service first.");
+      return;
+    }
     setBusy(true);
     setError("");
     setNotice("");
@@ -164,25 +167,11 @@ function AdminPage() {
     <main>
       <PageHeading
         title="Gallery admin"
-        description="Upload new safari photos, add accessible captions, and arrange the gallery."
+        description="Add safari photos with short descriptions, arrange them, or remove photos from the gallery."
       />
       <section className="section">
         <div className="wrap admin-wrap">
-          {!supabase ? (
-            <div className="admin-setup">
-              <h2>Connect the gallery first</h2>
-              <p>
-                Create a Supabase project, run <code>supabase/gallery-setup.sql</code> in its SQL
-                Editor, then invite your admin under Authentication → Users and grant that account
-                access using the SQL note at the bottom of the setup script.
-              </p>
-              <p>
-                Copy <code>.env.example</code> to <code>.env.local</code>, add the project URL and
-                publishable key, then restart the site. Full steps are in{" "}
-                <code>SUPABASE_SETUP.md</code>.
-              </p>
-            </div>
-          ) : !signedIn ? (
+          {!supabase || !signedIn ? (
             <form className="enquiry-panel admin-login" onSubmit={signIn}>
               <h2>Admin sign in</h2>
               <div>
@@ -211,7 +200,9 @@ function AdminPage() {
                 {busy ? "Signing in…" : "Sign in"}
               </Button>
               <p className="admin-note">
-                Admin accounts are created in Supabase by the site owner.
+                {supabase
+                  ? "Sign in with your gallery admin account."
+                  : "Gallery sign-in is not connected yet."}
               </p>
             </form>
           ) : adminAccess === "checking" ? (
@@ -258,7 +249,7 @@ function AdminPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="gallery-caption">Caption</label>
+                    <label htmlFor="gallery-caption">Short description shown in the gallery</label>
                     <input
                       id="gallery-caption"
                       value={caption}
@@ -267,7 +258,7 @@ function AdminPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="gallery-alt">Image description</label>
+                  <label htmlFor="gallery-alt">Accessibility description</label>
                     <input
                       id="gallery-alt"
                       value={altText}
@@ -327,7 +318,7 @@ function AdminPage() {
                         variant="outline"
                         size="icon"
                         aria-label={`Remove ${photo.caption}`}
-                        title="Remove photo"
+                        title="Delete photo"
                         disabled={busy}
                         onClick={() => void removePhoto(photo)}
                       >
