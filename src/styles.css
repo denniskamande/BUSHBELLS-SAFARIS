@@ -143,6 +143,11 @@ p {
   gap: 10px;
   margin-right: auto;
 }
+.brand:focus-visible {
+  outline: 2px solid var(--forest);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
 .brand-mark {
   color: var(--forest);
   width: 37px;

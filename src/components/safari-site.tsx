@@ -42,7 +42,7 @@ function tomorrowDateInputValue() {
 }
 export function Brand() {
   return (
-    <Link to="/" className="brand">
+    <Link to="/" className="brand" aria-label="Bushbells Safaris home" title="Go to home page">
       <img className="brand-logo" src={bushbellsLogo} alt="Bushbells Safaris" />
     </Link>
   );
