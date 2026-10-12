@@ -56,6 +56,12 @@ export function SiteHeader() {
     setDarkMode(enabled);
     document.documentElement.dataset.theme = enabled ? "dark" : "light";
   }, []);
+  useEffect(() => {
+    document.documentElement.dataset.planTripOpen = String(planOpen);
+    return () => {
+      delete document.documentElement.dataset.planTripOpen;
+    };
+  }, [planOpen]);
   return (
     <header className="site-header">
       <div className="wrap header-inner">
@@ -95,6 +101,18 @@ export function SiteHeader() {
           </Button>
           {planOpen && (
             <div className="plan-trip-picker" id="plan-trip-picker">
+              <div className="plan-trip-picker-toolbar">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="plan-trip-cancel"
+                  aria-label="Cancel and close trip planner"
+                  onClick={() => setPlanOpen(false)}
+                >
+                  <X /> Cancel
+                </Button>
+              </div>
               <EnquiryForm />
             </div>
           )}

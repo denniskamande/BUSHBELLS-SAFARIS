@@ -203,6 +203,22 @@ p {
   border: 0;
   padding: 24px;
 }
+.plan-trip-picker-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 12px 0;
+  background: var(--card);
+}
+.plan-trip-cancel {
+  color: var(--muted-foreground);
+}
+.plan-trip-cancel svg {
+  width: 16px;
+  height: 16px;
+}
 .plan-trip-picker label {
   font-weight: 600;
 }
@@ -1520,6 +1536,9 @@ textarea {
 
 /* Shared phone layout: keep every section within the viewport and easy to scan. */
 @media (max-width: 760px) {
+  html[data-plan-trip-open="true"] .whatsapp-float {
+    display: none;
+  }
   .section {
     padding: 46px 0;
   }
