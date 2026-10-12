@@ -43,6 +43,11 @@
   --forest: oklch(0.25 0.045 163);
   --on-forest: oklch(0.98 0.008 85);
   --gold: oklch(0.82 0.142 82);
+  --route-water: oklch(0.95 0.028 205);
+  --route-land-light: oklch(0.87 0.045 121);
+  --route-land: oklch(0.75 0.075 130);
+  --route-outline: oklch(0.48 0.065 151);
+  --route-label: oklch(0.3 0.045 155);
   --hero-shade: linear-gradient(
     90deg,
     oklch(0.15 0.035 155 / 0.77),
@@ -66,6 +71,11 @@
   --forest: oklch(0.48 0.07 158);
   --on-forest: oklch(0.97 0.008 90);
   --gold: oklch(0.77 0.105 82);
+  --route-water: oklch(0.27 0.032 205);
+  --route-land-light: oklch(0.46 0.055 133);
+  --route-land: oklch(0.34 0.045 148);
+  --route-outline: oklch(0.62 0.055 130);
+  --route-label: oklch(0.91 0.018 100);
   --shadow-soft: 0 8px 24px oklch(0.04 0.01 155 / 0.35);
 }
 * {
@@ -426,56 +436,225 @@ p {
   color: var(--forest);
   flex: 0 0 auto;
 }
-.journey-wave {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  margin: 20px 0 30px;
-  padding: 18px 8px 28px;
-  list-style: none;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scrollbar-width: thin;
-}
-.journey-stop {
-  position: relative;
-  display: grid;
-  align-content: start;
-  justify-items: start;
-  gap: 12px;
-  flex: 0 0 150px;
-  min-height: 105px;
-  padding: 15px;
+.kenya-route-card {
+  margin: 18px 0 30px;
+  overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--secondary);
+  border-radius: 18px;
+  background: var(--card);
   box-shadow: var(--shadow-soft);
 }
-.journey-stop-low {
-  margin-top: 22px;
+.kenya-route-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px 16px;
 }
-.journey-stop:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 31px;
-  left: 100%;
-  width: 20px;
-  border-top: 2px dotted var(--gold);
-}
-.journey-stop-number {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--forest);
-  color: var(--on-forest);
+.kenya-route-heading .eyebrow {
+  color: var(--forest);
   font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+.kenya-route-heading p {
+  margin: 5px 0 0;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.kenya-route-count {
+  flex: 0 0 auto;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: var(--secondary);
+  color: var(--foreground);
+  font-size: 12px;
   font-weight: 700;
 }
-.journey-stop strong {
+.kenya-route-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+  border-top: 1px solid var(--border);
+}
+.kenya-map-frame {
+  min-width: 0;
+  padding: 12px 16px 10px;
+  background: #f4f0e5;
+}
+.kenya-map {
+  display: block;
+  width: 100%;
+  max-height: 500px;
+  margin: auto;
+}
+.kenya-map-geography {
+  pointer-events: none;
+}
+.kenya-map-water-shape {
+  fill: #c9e2ed;
+  stroke: #b3d5e2;
+  stroke-width: 1;
+}
+.kenya-map-rift {
+  fill: none;
+  stroke: #b4dce9;
+  stroke-width: 2;
+  opacity: .75;
+}
+.kenya-map-reserve {
+  fill: #98ad7f;
+  opacity: .34;
+}
+.kenya-route-underlay,
+.kenya-route-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.kenya-route-underlay {
+  stroke: #fffdf7;
+  stroke-width: 7;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: safari-route-draw 3.2s ease-out forwards;
+}
+.kenya-route-line {
+  stroke: #b3191e;
+  stroke-width: 2.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: safari-route-draw 3.2s ease-out forwards;
+}
+.kenya-route-arrowhead {
+  fill: #b3191e;
+  opacity: 0;
+  animation: safari-route-arrow-reveal .25s ease 3.2s forwards;
+}
+.kenya-route-cursor {
+  filter: drop-shadow(0 1px 2px rgb(34 28 18 / 45%));
+  pointer-events: none;
+}
+.kenya-route-cursor path {
+  fill: #b3191e;
+  stroke: #fffdf7;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.kenya-stop-tooltip {
+  pointer-events: none;
+}
+.kenya-stop-tooltip-leader {
+  fill: none;
+  stroke: #6d7167;
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+  vector-effect: non-scaling-stroke;
+}
+.kenya-stop-tooltip-box {
+  fill: #fffdf7;
+  stroke: #6c7568;
+  stroke-width: 1;
+  filter: drop-shadow(0 2px 4px rgb(34 28 18 / 20%));
+}
+.kenya-stop-tooltip-day {
+  fill: #a71920;
+  font-size: 9px;
+  font-weight: 800;
+}
+.kenya-stop-tooltip-name {
+  fill: #243323;
+  font-size: 10px;
+  font-weight: 700;
+}
+.kenya-route-marker {
+  filter: url(#route-marker-shadow);
+}
+.kenya-route-marker-ring {
+  fill: #fffdf7;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: safari-marker-pulse 2.4s ease-out infinite;
+}
+.kenya-route-marker-dot {
+  fill: #b3191e;
+  stroke: #fffdf7;
+  stroke-width: 1.2;
+}
+.kenya-route-stops {
+  display: grid;
+  align-content: start;
+  gap: 0;
+  max-height: 520px;
+  margin: 0;
+  padding: 20px 22px;
+  overflow-y: auto;
+  list-style: none;
+}
+.kenya-route-stops li {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(74px, auto) minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  min-height: 45px;
+  padding: 5px 0;
+}
+.kenya-route-stops li:not(:last-child)::after {
+  position: absolute;
+  top: 30px;
+  left: 5px;
+  width: 1px;
+  height: calc(100% - 20px);
+  border-left: 1px dotted #9c9c92;
+  content: "";
+}
+.kenya-route-stops li > span {
+  z-index: 1;
+  display: block;
+  padding-left: 17px;
+  color: var(--foreground);
   font-size: 14px;
+  font-weight: 800;
+  line-height: 1.55;
+}
+.kenya-route-stops li > span::before {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--card);
+  border-radius: 50%;
+  background: #b3191e;
+  content: "";
+}
+.kenya-route-stops strong {
+  color: var(--foreground);
+  font-size: 15px;
   line-height: 1.35;
+}
+.route-map-note {
+  margin: -16px 0 28px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+@keyframes safari-route-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes safari-route-arrow-reveal {
+  to { opacity: 1; }
+}
+@keyframes safari-marker-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  55% { opacity: .58; transform: scale(1.3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kenya-route-line,
+  .kenya-route-underlay { stroke-dashoffset: 0; animation: none; }
+  .kenya-route-arrowhead { opacity: 1; animation: none; }
+  .kenya-route-cursor { display: none; }
+  .kenya-route-marker-ring { animation: none; }
 }
 .package-route {
   color: var(--muted-foreground);
@@ -1739,8 +1918,11 @@ textarea {
   .gallery-tile img {
     aspect-ratio: 3 / 2;
   }
-  .journey-wave {
-    gap: 14px;
-    margin-inline: -4px;
+  .kenya-route-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .kenya-route-stops {
+    max-height: none;
+    border-top: 1px solid var(--border);
   }
 }

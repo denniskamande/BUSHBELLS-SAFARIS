@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { PageHeading, EnquiryForm } from "@/components/safari-site";
+import { KenyaRouteMap, type RouteStop } from "@/components/kenya-route-map";
 import { packages, pageHead, packageImage, destinations } from "@/lib/safaris";
 export const Route = createFileRoute("/packages/$slug")({
   loader: ({ params }) => {
@@ -13,6 +14,50 @@ export const Route = createFileRoute("/packages/$slug")({
 });
 function Page() {
   const p = Route.useLoaderData();
+  const destinationDays: Record<string, string[]> = {
+    "maasai-mara": ["masai mara", "maasai mara", "mara"],
+    "aberdare-ranges": ["aberdare"],
+    "ol-pejeta": ["ol pejeta"],
+    "hells-gate": ["hell's gate", "hells gate"],
+    "lake-bogoria": ["bogoria"],
+    "tsavo-east": ["tsavo east"],
+    "tsavo-west": ["tsavo west"],
+    naivasha: ["naivasha", "crescent island"],
+    samburu: ["samburu"],
+    nakuru: ["nakuru"],
+    amboseli: ["amboseli"],
+    nanyuki: ["nanyuki"],
+    diani: ["diani"],
+    nairobi: ["nairobi"],
+  };
+  const kenyaStops: RouteStop[] = p.ds.flatMap((id) => {
+    const place = destinations.find((destination) => destination.id === id);
+    if (place?.c !== "Kenya") return [];
+    const aliases = destinationDays[id] ?? [place.n.toLowerCase()];
+    const matchingDays = p.it.flatMap(([title, description], index) => {
+      const dayText = `${title} ${description}`.toLowerCase();
+      return aliases.some((alias) => dayText.includes(alias)) ? [index + 1] : [];
+    });
+    const dayGroups: [number, number][] = [];
+    matchingDays.forEach((day) => {
+      const previous = dayGroups.at(-1);
+      if (previous && previous[1] + 1 === day) previous[1] = day;
+      else dayGroups.push([day, day]);
+    });
+    const dayLabel = dayGroups.length
+      ? dayGroups
+          .map(([first, last]) => `Day ${first}${first === last ? "" : `–${last}`}`)
+          .join(", ")
+      : undefined;
+    return [{ id: place.id, name: place.n, dayLabel }];
+  });
+  const finalDay = p.it.at(-1)?.join(" ").toLowerCase() ?? "";
+  const routeEnd = p.days > 0.5 && /moi (international )?airport/.test(finalDay)
+    ? { id: "mombasa", name: "Moi Airport" }
+    : p.days > 0.5 && /nairobi/.test(finalDay)
+      ? { id: "nairobi", name: "Nairobi (City)" }
+      : undefined;
+
   return (
     <main>
       <PageHeading title={p.n} description={p.t} />
@@ -61,22 +106,18 @@ function Page() {
               availability; your final itinerary will be confirmed with your quote.
             </p>
             <h3>Destinations on this journey</h3>
-            <ol className="journey-wave" aria-label="Destinations in route order">
-              {p.ds.map((id, index) => {
-                const place = destinations.find((destination) => destination.id === id);
-                return (
-                  <li
-                    key={id}
-                    className={index % 2 ? "journey-stop journey-stop-low" : "journey-stop"}
-                  >
-                    <span className="journey-stop-number" aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <strong>{place?.n ?? id}</strong>
-                  </li>
-                );
-              })}
-            </ol>
+            <KenyaRouteMap
+              stops={kenyaStops}
+              startAtNairobi={p.days > 0.5}
+              endAt={routeEnd}
+            />
+            {kenyaStops.length > 0 &&
+              p.ds.some((id) => destinations.find((place) => place.id === id)?.c !== "Kenya") && (
+              <p className="route-map-note">
+                This map shows the Kenya stops. Any Uganda or Tanzania destinations on this
+                itinerary are listed in the itinerary above.
+              </p>
+            )}
           </div>
           <EnquiryForm initialPackage={p.n} compact />
         </div>
