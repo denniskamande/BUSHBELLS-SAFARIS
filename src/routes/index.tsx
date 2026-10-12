@@ -85,7 +85,7 @@ function Index() {
           <span className="eyebrow">
             <span aria-hidden="true">—</span> YOUR LOCAL CONNECTION TO EAST AFRICA
           </span>
-          <h1>Bushbells Safaris</h1>
+          <h1>ushbells Safaris</h1>
           <div className="hero-subtitle">Your next great adventure awaits.</div>
           <p className="hero-copy">
             Wild places. Unforgettable encounters. Handcrafted safaris across Kenya, Uganda and
