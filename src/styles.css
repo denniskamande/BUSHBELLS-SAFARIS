@@ -886,6 +886,39 @@ textarea {
   .wrap {
     padding: 0 22px;
   }
+  .page-heading {
+    padding: 42px 0 32px;
+  }
+  .page-heading h1 {
+    font-size: clamp(32px, 8vw, 40px);
+    overflow-wrap: anywhere;
+  }
+  .two-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  .two-columns > *,
+  .prose {
+    min-width: 0;
+  }
+  .prose h2 {
+    font-size: 27px;
+  }
+  .prose h3 {
+    font-size: 21px;
+  }
+  .facts {
+    flex-wrap: wrap;
+    gap: 14px 20px;
+  }
+  .facts > div {
+    flex: 1 1 120px;
+    min-width: 0;
+  }
+  .day .itinerary-day-title {
+    font-size: 18px;
+    overflow-wrap: anywhere;
+  }
   .site-header {
     height: 74px;
   }
