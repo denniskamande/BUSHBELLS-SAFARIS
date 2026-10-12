@@ -1,7 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { PageHeading, EnquiryForm } from "@/components/safari-site";
-import { Button } from "@/components/ui/button";
 import { packages, pageHead, packageImage, destinations } from "@/lib/safaris";
 export const Route = createFileRoute("/packages/$slug")({
   loader: ({ params }) => {
@@ -44,6 +42,24 @@ function Page() {
             <p className="pricing-note">Indicative SafariBookings prices for two travelers. Rates vary with season, availability, accommodation and final inclusions; request a current quote.</p>
             <h2>About this safari</h2>
             <p>{p.t}</p>
+            <h3>Day-by-day safari itinerary</h3>
+            <div className="itinerary">
+              {p.it.map(([title, description], index) => (
+                <article className="day" key={`${p.id}-day-${index + 1}`}>
+                  <span className="day-number" aria-hidden="true">
+                    {p.days < 1 ? "½" : index + 1}
+                  </span>
+                  <h4 className="itinerary-day-title">
+                    {p.days < 1 ? "Half-day" : `Day ${index + 1}`} · {title}
+                  </h4>
+                  <p>{description}</p>
+                </article>
+              ))}
+            </div>
+            <p className="itinerary-note">
+              Daily plans are a guide. Timing and activities may vary with travel dates and
+              availability; your final itinerary will be confirmed with your quote.
+            </p>
             <h3>Destinations on this journey</h3>
             <ol className="journey-wave" aria-label="Destinations in route order">
               {p.ds.map((id, index) => {
@@ -61,11 +77,6 @@ function Page() {
                 );
               })}
             </ol>
-            <Button asChild variant="outline">
-              <a href={p.source} target="_blank" rel="noreferrer">
-                View original SafariBookings listing <ArrowRight />
-              </a>
-            </Button>
           </div>
           <EnquiryForm initialPackage={p.n} compact />
         </div>

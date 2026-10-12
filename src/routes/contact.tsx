@@ -34,9 +34,9 @@ function Page() {
                 <MapPin />
                 10633-00200 City Square, Nairobi
               </div>
-              <a href="mailto:info@bushbells.co.ke">
+              <a href="mailto:bookings.bushbellssafaris@gmail.com">
                 <Mail />
-                info@bushbells.co.ke
+                bookings.bushbellssafaris@gmail.com
               </a>
               <a href="tel:+254723803116">
                 <Phone />

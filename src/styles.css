@@ -752,9 +752,20 @@ textarea {
   border-radius: 50%;
   font-size: 12px;
 }
-.day h3 {
+.day h3,
+.day .itinerary-day-title {
   margin: 0 0 8px;
   font-size: 20px;
+}
+.day .itinerary-day-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.itinerary-note {
+  margin: -12px 0 28px;
+  color: var(--muted-foreground);
+  font-size: 13px;
 }
 .detail-photo {
   width: 100%;
@@ -1192,6 +1203,90 @@ textarea {
 .whatsapp-enquire {
   color: #fff !important;
 }
+.reviews-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.5fr);
+  gap: 24px;
+  align-items: start;
+}
+.reviews-summary,
+.review-card {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow-soft);
+}
+.reviews-summary .eyebrow {
+  color: var(--muted-foreground);
+}
+.reviews-score {
+  margin-top: 10px;
+  color: var(--foreground);
+}
+.reviews-score strong {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  line-height: 1;
+}
+.reviews-score span,
+.review-meta,
+.review-attribution {
+  color: var(--muted-foreground);
+}
+.reviews-stars {
+  display: flex;
+  gap: 3px;
+  color: var(--gold);
+}
+.reviews-stars svg {
+  width: 18px;
+  height: 18px;
+}
+.reviews-summary .reviews-stars {
+  margin-top: 14px;
+}
+.reviews-summary p {
+  margin: 10px 0 20px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.reviews-summary a,
+.review-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.reviews-summary a svg,
+.review-source-link svg {
+  width: 15px;
+  height: 15px;
+}
+.review-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+.review-card h2 {
+  margin: 26px 0 14px;
+  font-size: 23px;
+  line-height: 1.4;
+}
+.review-meta,
+.review-attribution {
+  font-size: 14px;
+}
+.review-attribution {
+  margin: 20px 0;
+}
 .experience-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1275,6 +1370,14 @@ textarea {
   .brand-logo {
     width: 130px;
     height: 61px;
+  }
+  .reviews-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .reviews-summary,
+  .review-card {
+    padding: 22px;
   }
   .experience-grid {
     grid-template-columns: 1fr;

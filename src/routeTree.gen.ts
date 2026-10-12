@@ -16,6 +16,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as PackagesRouteImport } from './routes/packages'
+import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as DestinationsIndexRouteImport } from './routes/destinations/index'
 import { Route as DestinationsSlugRouteImport } from './routes/destinations/$slug'
 import { Route as PackagesIndexRouteImport } from './routes/packages/index'
@@ -56,6 +57,11 @@ const PackagesRoute = PackagesRouteImport.update({
   path: '/packages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DestinationsIndexRoute = DestinationsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/destinations': typeof DestinationsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/packages': typeof PackagesRouteWithChildren
+  '/reviews': typeof ReviewsRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/packages/$slug': typeof PackagesSlugRoute
   '/destinations/': typeof DestinationsIndexRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/reviews': typeof ReviewsRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/packages/$slug': typeof PackagesSlugRoute
   '/destinations': typeof DestinationsIndexRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/destinations': typeof DestinationsRouteWithChildren
   '/gallery': typeof GalleryRoute
   '/packages': typeof PackagesRouteWithChildren
+  '/reviews': typeof ReviewsRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/packages/$slug': typeof PackagesSlugRoute
   '/destinations/': typeof DestinationsIndexRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/destinations'
     | '/gallery'
     | '/packages'
+    | '/reviews'
     | '/destinations/$slug'
     | '/packages/$slug'
     | '/destinations/'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/gallery'
+    | '/reviews'
     | '/destinations/$slug'
     | '/packages/$slug'
     | '/destinations'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/destinations'
     | '/gallery'
     | '/packages'
+    | '/reviews'
     | '/destinations/$slug'
     | '/packages/$slug'
     | '/destinations/'
@@ -163,6 +175,7 @@ export interface RootRouteChildren {
   DestinationsRoute: typeof DestinationsRouteWithChildren
   GalleryRoute: typeof GalleryRoute
   PackagesRoute: typeof PackagesRouteWithChildren
+  ReviewsRoute: typeof ReviewsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/packages'
       fullPath: '/packages'
       preLoaderRoute: typeof PackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/destinations/': {
@@ -283,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   DestinationsRoute: DestinationsRouteWithChildren,
   GalleryRoute: GalleryRoute,
   PackagesRoute: PackagesRouteWithChildren,
+  ReviewsRoute: ReviewsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

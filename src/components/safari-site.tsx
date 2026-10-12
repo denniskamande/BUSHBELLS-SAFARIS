@@ -28,9 +28,18 @@ const nav = [
   { to: "/packages", name: "Packages" },
   { to: "/destinations", name: "Destinations" },
   { to: "/gallery", name: "Gallery" },
+  { to: "/reviews", name: "Reviews" },
   { to: "/about", name: "About" },
   { to: "/contact", name: "Contact" },
 ] as const;
+function tomorrowDateInputValue() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const year = tomorrow.getFullYear();
+  const month = String(tomorrow.getMonth() + 1).padStart(2, "0");
+  const day = String(tomorrow.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 export function Brand() {
   return (
     <Link to="/" className="brand">
@@ -129,7 +138,7 @@ export function SiteFooter() {
               <p>
                 10633-00200 City Square, Nairobi
                 <br />
-                <a href="mailto:info@bushbells.co.ke">info@bushbells.co.ke</a> ·{" "}
+                <a href="mailto:bookings.bushbellssafaris@gmail.com">bookings.bushbellssafaris@gmail.com</a> ·{" "}
                 <a href="tel:+254723803116">+254 723 803 116</a>
               </p>
             </div>
@@ -291,7 +300,7 @@ export function EnquiryForm({
         const message = `Hello Bushbells Safaris, I’m ${f.get("name")} (${f.get("email")}). Interested in: ${f.get("package")}, ${f.get("travellers")} traveller(s), ${f.get("date") || "dates flexible"}. ${f.get("message") || ""}`;
         if (method === "email") {
           const subject = `Safari enquiry: ${f.get("package")}`;
-          window.location.href = `mailto:info@bushbells.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+          window.location.href = `mailto:bookings.bushbellssafaris@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
         } else {
           window.open(whatsapp(message), "_blank", "noopener,noreferrer");
         }
@@ -326,7 +335,15 @@ export function EnquiryForm({
         </div>
         <div>
           <label htmlFor={`${formId}-date`}>Travel date</label>
-          <input id={`${formId}-date`} type="date" name="date" />
+          <input
+            id={`${formId}-date`}
+            type="date"
+            name="date"
+            min={tomorrowDateInputValue()}
+            onFocus={(event) => {
+              event.currentTarget.min = tomorrowDateInputValue();
+            }}
+          />
         </div>
         <div className="form-wide">
           <label htmlFor={`${formId}-contact-method`}>Preferred contact method</label>
