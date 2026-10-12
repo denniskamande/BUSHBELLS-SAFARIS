@@ -6,6 +6,8 @@ export type GalleryPhoto = {
   storage_path: string;
   caption: string;
   alt_text: string;
+  destination_id?: string | null;
+  highlight?: string | null;
   sort_order: number;
   created_at: string;
 };
@@ -36,7 +38,25 @@ export async function listGalleryPhotos() {
     .order("created_at", { ascending: false });
 }
 
-export async function uploadGalleryPhoto(file: File, caption: string, altText: string) {
+export async function listDestinationPhotos(destinationId: string) {
+  const supabase = getSupabaseClient();
+  if (!supabase) return { data: null, error: new Error("Gallery storage is not configured.") };
+  return supabase
+    .from("gallery_photos")
+    .select("*")
+    .eq("destination_id", destinationId)
+    .not("highlight", "is", null)
+    .order("sort_order")
+    .order("created_at", { ascending: false });
+}
+
+export async function uploadGalleryPhoto(
+  file: File,
+  caption: string,
+  altText: string,
+  destinationId?: string,
+  highlight?: string,
+) {
   const supabase = getSupabaseClient();
   if (!supabase) throw new Error("Gallery storage is not configured.");
   const {
@@ -58,6 +78,8 @@ export async function uploadGalleryPhoto(file: File, caption: string, altText: s
       storage_path: path,
       caption,
       alt_text: altText,
+      destination_id: destinationId || null,
+      highlight: highlight || null,
     })
     .select("*")
     .single();

@@ -30,6 +30,13 @@ create table if not exists public.gallery_photos (
   created_at timestamptz not null default now()
 );
 
+alter table public.gallery_photos
+  add column if not exists destination_id text,
+  add column if not exists highlight text;
+
+create index if not exists gallery_photos_destination_highlight_idx
+  on public.gallery_photos (destination_id, highlight);
+
 alter table public.gallery_photos enable row level security;
 grant select on public.gallery_photos to anon, authenticated;
 grant insert, update, delete on public.gallery_photos to authenticated;

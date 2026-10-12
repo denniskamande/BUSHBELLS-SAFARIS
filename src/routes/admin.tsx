@@ -12,7 +12,7 @@ import {
   uploadGalleryPhoto,
   type GalleryPhoto,
 } from "@/lib/gallery-service";
-import { pageHead } from "@/lib/safaris";
+import { destinations, pageHead } from "@/lib/safaris";
 
 export const Route = createFileRoute("/admin")({
   head: () => pageHead("Gallery Admin", "Manage Bushbells Safaris gallery photos."),
@@ -36,6 +36,7 @@ function AdminPage() {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [caption, setCaption] = useState("");
   const [altText, setAltText] = useState("");
+  const [placement, setPlacement] = useState("");
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
@@ -111,13 +112,15 @@ function AdminPage() {
     setError("");
     setNotice("Uploading photos…");
     try {
+      const [destinationId, highlight] = placement ? placement.split("::") : ["", ""];
       for (const file of files) {
         const title = caption.trim() || titleFromFile(file.name);
-        await uploadGalleryPhoto(file, title, altText.trim() || title);
+        await uploadGalleryPhoto(file, title, altText.trim() || title, destinationId, highlight);
       }
       input.value = "";
       setCaption("");
       setAltText("");
+      setPlacement("");
       await refreshPhotos();
       setNotice(
         `${files.length} ${files.length === 1 ? "photo was" : "photos were"} added to the gallery.`,
@@ -258,7 +261,7 @@ function AdminPage() {
                     />
                   </div>
                   <div>
-                  <label htmlFor="gallery-alt">Accessibility description</label>
+                    <label htmlFor="gallery-alt">Accessibility description</label>
                     <input
                       id="gallery-alt"
                       value={altText}
@@ -266,13 +269,36 @@ function AdminPage() {
                       placeholder="Optional; defaults to caption"
                     />
                   </div>
+                  <div className="form-wide">
+                    <label htmlFor="gallery-placement">Also show in a destination highlight</label>
+                    <select
+                      id="gallery-placement"
+                      value={placement}
+                      onChange={(event) => setPlacement(event.target.value)}
+                    >
+                      <option value="">Gallery only</option>
+                      {destinations.map((destination) => (
+                        <optgroup key={destination.id} label={destination.n}>
+                          {destination.l.map((highlight) => (
+                            <option
+                              key={`${destination.id}::${highlight}`}
+                              value={`${destination.id}::${highlight}`}
+                            >
+                              {highlight}
+                            </option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+                  </div>
                   <Button variant="forest" type="submit" className="form-wide" disabled={busy}>
-                    {busy ? "Working…" : "Upload to gallery"}
+                    {busy ? "Working…" : "Upload photo"}
                   </Button>
                 </div>
                 <p className="admin-note">
-                  You can select several images at once. Captions and descriptions apply to all
-                  selected files; leave them blank to use each file name.
+                  Choose a destination highlight to show these photos there as well as in the main
+                  gallery. You can select several images at once; the caption, description and
+                  placement apply to all selected files.
                 </p>
               </form>
               {notice && (
@@ -292,6 +318,14 @@ function AdminPage() {
                     <div className="admin-photo-info">
                       <strong>{photo.caption}</strong>
                       <span>{photo.alt_text}</span>
+                      {photo.destination_id && photo.highlight && (
+                        <span>
+                          Also shown in{" "}
+                          {destinations.find((item) => item.id === photo.destination_id)?.n ??
+                            photo.destination_id}
+                          : {photo.highlight}
+                        </span>
+                      )}
                     </div>
                     <div className="admin-photo-actions">
                       <Button
