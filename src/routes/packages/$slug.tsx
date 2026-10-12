@@ -1,19 +1,28 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { PageHeading, EnquiryForm } from "@/components/safari-site";
 import { KenyaRouteMap, type RouteStop } from "@/components/kenya-route-map";
 import { packages, pageHead, packageImage, destinations } from "@/lib/safaris";
+import { useSafariPackages } from "@/lib/use-safari-packages";
 export const Route = createFileRoute("/packages/$slug")({
   loader: ({ params }) => {
-    const p = packages.find((p) => p.id === params.slug);
-    if (!p) throw notFound();
-    return p;
+    return packages.find((p) => p.id === params.slug);
   },
   head: ({ loaderData }) =>
     pageHead(loaderData?.n ?? "Safari package", loaderData?.t ?? "A personalised Kenya safari."),
   component: Page,
 });
 function Page() {
-  const p = Route.useLoaderData();
+  const loadedPackage = Route.useLoaderData();
+  const { safaris, loaded } = useSafariPackages();
+  const slug = Route.useParams().slug;
+  const p = safaris.find((safari) => safari.id === slug) ?? loadedPackage;
+  if (!p) {
+    return (
+      <main>
+        <PageHeading title={loaded ? "Safari not found" : "Loading safari…"} description={loaded ? "This safari may have been removed. Browse our other journeys." : "Loading safari details."} />
+      </main>
+    );
+  }
   const destinationDays: Record<string, string[]> = {
     "maasai-mara": ["masai mara", "maasai mara", "mara"],
     "aberdare-ranges": ["aberdare"],
@@ -49,7 +58,7 @@ function Page() {
           .map(([first, last]) => `Day ${first}${first === last ? "" : `–${last}`}`)
           .join(", ")
       : undefined;
-    return [{ id: place.id, name: place.n, dayLabel }];
+    return [{ id: place.id, name: place.n, ...(dayLabel ? { dayLabel } : {}) }];
   });
   const finalDay = p.it.at(-1)?.join(" ").toLowerCase() ?? "";
   const routeEnd = p.days > 0.5 && /moi (international )?airport/.test(finalDay)
@@ -66,7 +75,7 @@ function Page() {
           <div className="prose">
             <img
               className="detail-photo"
-              src={packageImage(p.id)}
+              src={packageImage(p.id, p.imageUrl)}
               alt={p.n}
               width={1024}
               height={768}
@@ -109,7 +118,7 @@ function Page() {
             <KenyaRouteMap
               stops={kenyaStops}
               startAtNairobi={p.days > 0.5}
-              endAt={routeEnd}
+              {...(routeEnd ? { endAt: routeEnd } : {})}
             />
             {kenyaStops.length > 0 &&
               p.ds.some((id) => destinations.find((place) => place.id === id)?.c !== "Kenya") && (

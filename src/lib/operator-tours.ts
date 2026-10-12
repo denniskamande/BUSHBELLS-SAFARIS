@@ -1,5 +1,19 @@
 /** Bushbells Safaris listings transcribed from SafariBookings operator page p5942. */
-export const operatorTours = [
+export type SafariPackage = {
+  id: string;
+  priceEstimate: string;
+  n: string;
+  duration: string;
+  days: number;
+  ds: string[];
+  t: string;
+  h: number;
+  it: [string, string][];
+  source?: string;
+  imageUrl?: string;
+};
+
+export const operatorTours: SafariPackage[] = [
   {
     id: "6-day-aberdare-nanyuki-nakuru-mara",
     priceEstimate: "$4,609–$5,070",

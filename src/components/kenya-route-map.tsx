@@ -94,6 +94,7 @@ export function KenyaRouteMap({
       if (cancelled) return;
       const stop = route[stopIndex];
       const next = route[(stopIndex + 1) % route.length];
+      if (!stop || !next) return;
       const angle = (Math.atan2(next.y - stop.y, next.x - stop.x) * 180) / Math.PI;
       setCursor({ x: stop.x, y: stop.y, angle, stopIndex });
       const pause = stop.stop.dayLabel === "Start" || stop.stop.dayLabel === "End" ? 1000 : 1650;
@@ -105,6 +106,7 @@ export function KenyaRouteMap({
       const fromIndex = (stopIndex - 1 + route.length) % route.length;
       const from = route[fromIndex];
       const to = route[stopIndex];
+      if (!from || !to) return;
       const dx = to.x - from.x;
       const dy = to.y - from.y;
       const distance = Math.hypot(dx, dy);

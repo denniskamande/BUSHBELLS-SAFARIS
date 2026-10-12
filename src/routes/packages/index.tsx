@@ -2,33 +2,35 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PageHeading, PackageCard, CTA } from "@/components/safari-site";
-import { packages, pageHead } from "@/lib/safaris";
+import { pageHead } from "@/lib/safaris";
+import { useSafariPackages } from "@/lib/use-safari-packages";
 export const Route = createFileRoute("/packages/")({
   head: () =>
     pageHead(
       "Safari Packages",
-      "Explore all 14 Bushbells Safaris tours, with itineraries for wildlife, landscapes and coastal escapes.",
+      "Explore Bushbells Safaris tours, with itineraries for wildlife, landscapes and coastal escapes.",
     ),
   component: Page,
 });
 function Page() {
+  const { safaris } = useSafariPackages();
   const [duration, setDuration] = useState("All safaris");
   const [query, setQuery] = useState("");
-  const durations = ["All safaris", ...Array.from(new Set(packages.map((p) => p.duration)))];
+  const durations = ["All safaris", ...Array.from(new Set(safaris.map((p) => p.duration)))];
   const filtered = useMemo(
     () =>
-      packages.filter(
+      safaris.filter(
         (p) =>
           (duration === "All safaris" || p.duration === duration) &&
           `${p.n} ${p.t} ${p.ds.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase()),
       ),
-    [duration, query],
+    [duration, query, safaris],
   );
   return (
     <main>
       <PageHeading
         title="Safari packages"
-        description="Browse all 14 Bushbells Safaris journeys, from half-day Nairobi wildlife escapes to multi-day adventures across Kenya. Ask us for a quote tailored to your dates and group."
+        description="Browse Bushbells Safaris journeys, from half-day Nairobi wildlife escapes to multi-day adventures across Kenya. Ask us for a quote tailored to your dates and group."
       />
       <section className="section">
         <div className="wrap">

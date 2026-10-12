@@ -1400,6 +1400,99 @@ textarea {
 .admin-wrap {
   max-width: 940px;
 }
+.admin-section-tabs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.admin-tab-signout {
+  margin-left: auto;
+}
+.package-manager {
+  display: grid;
+  gap: 18px;
+}
+.package-manager-select {
+  display: grid;
+  gap: 7px;
+  max-width: 560px;
+}
+.package-editor h3,
+.package-itinerary-editor h3 {
+  margin: 0 0 12px;
+}
+.package-destination-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 9px;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.package-destination-options legend {
+  padding: 0 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.package-destination-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+.package-destination-options input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--forest);
+}
+.package-destination-options small,
+.package-editor small {
+  color: var(--muted-foreground);
+}
+.package-editor small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+}
+.package-itinerary-editor {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+.package-itinerary-editor > .admin-toolbar {
+  margin-bottom: 2px;
+}
+.package-day-editor {
+  display: grid;
+  grid-template-columns: 70px minmax(180px, .8fr) minmax(240px, 1.5fr) 40px;
+  align-items: start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+}
+.package-day-editor > strong {
+  padding-top: 10px;
+  color: var(--forest);
+  font-size: 13px;
+}
+.package-day-editor label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.package-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 .admin-setup,
 .admin-login {
   max-width: 540px;
@@ -1517,6 +1610,23 @@ textarea {
   color: var(--destructive);
 }
 @media (max-width: 600px) {
+  .admin-section-tabs {
+    flex-wrap: wrap;
+  }
+  .package-day-editor {
+    grid-template-columns: minmax(0, 1fr) 40px;
+  }
+  .package-day-editor > strong,
+  .package-day-editor label {
+    grid-column: 1;
+  }
+  .package-day-editor > strong {
+    padding-top: 0;
+  }
+  .package-day-editor > button {
+    grid-column: 2;
+    grid-row: 1;
+  }
   .admin-photo {
     grid-template-columns: 78px minmax(0, 1fr);
     gap: 12px;

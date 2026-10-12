@@ -17,12 +17,12 @@ import { Button } from "@/components/ui/button";
 import bushbellsLogo from "@/assets/bushbells-logo.png";
 import {
   destinations,
-  packages,
   packageImage,
   destinationImage,
   whatsapp,
   images,
 } from "@/lib/safaris";
+import { useSafariPackages } from "@/lib/use-safari-packages";
 const nav = [
   { to: "/", name: "Home" },
   { to: "/packages", name: "Packages" },
@@ -235,12 +235,12 @@ export function PageHeading({ title, description }: { title: string; description
     </div>
   );
 }
-export function PackageCard({ p }: { p: (typeof packages)[number] }) {
+export function PackageCard({ p }: { p: import("@/lib/operator-tours").SafariPackage }) {
   return (
     <Link to="/packages/$slug" params={{ slug: p.id }} className="package-card">
       <div className="package-photo">
         <img
-          src={packageImage(p.id)}
+          src={packageImage(p.id, p.imageUrl)}
           alt={
             p.id.includes("nakuru")
               ? "Flamingos at Lake Nakuru"
@@ -308,6 +308,7 @@ export function EnquiryForm({
   compact?: boolean;
 }) {
   const [method, setMethod] = useState<"whatsapp" | "email">("whatsapp");
+  const { safaris } = useSafariPackages();
   const formId = useId();
   return (
     <form
@@ -338,7 +339,7 @@ export function EnquiryForm({
           <label htmlFor={`${formId}-package`}>Your safari</label>
           <select id={`${formId}-package`} name="package" defaultValue={initialPackage}>
             <option>Custom trip</option>
-            {packages.map((p) => (
+            {safaris.map((p) => (
               <option key={p.id}>{p.n}</option>
             ))}
           </select>

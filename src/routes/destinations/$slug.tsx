@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHeading, CTA, PackageCard } from "@/components/safari-site";
-import { destinations, packages, pageHead, destinationImage, whatsapp } from "@/lib/safaris";
+import { destinations, pageHead, destinationImage, whatsapp } from "@/lib/safaris";
+import { useSafariPackages } from "@/lib/use-safari-packages";
 import {
   galleryPhotoUrl,
   getSupabaseClient,
@@ -40,10 +41,11 @@ export const Route = createFileRoute("/destinations/$slug")({
   component: Page,
 });
 function Page() {
+  const { safaris } = useSafariPackages();
   const d = Route.useLoaderData();
   const [destinationPhotos, setDestinationPhotos] = useState<GalleryPhoto[]>([]);
   const image = destinationImage(d.id);
-  const related = packages.filter((p) => p.ds.includes(d.id));
+  const related = safaris.filter((p) => p.ds.includes(d.id));
 
   useEffect(() => {
     if (!getSupabaseClient()) return;

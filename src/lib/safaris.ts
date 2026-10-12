@@ -178,16 +178,17 @@ const extraDestinations = [
     ],
   },
 ];
-export const destinations = [...data.destinations, ...extraDestinations].map((destination) =>
-  destination.c === "Kenya" && kenyaDestinationCopy[destination.id]
+export const destinations = [...data.destinations, ...extraDestinations].map((destination) => {
+  const copy = kenyaDestinationCopy[destination.id];
+  return destination.c === "Kenya" && copy
     ? {
         ...destination,
-        ...kenyaDestinationCopy[destination.id],
-        b: kenyaDestinationCopy[destination.id].b ?? destination.b,
+        ...copy,
+        b: copy.b ?? destination.b,
         e: destinationIcons[destination.id] ?? destination.e,
       }
-    : destination,
-);
+    : destination;
+});
 export const packages = operatorTours.slice().sort((a, b) => a.days - b.days);
 export const { experiences, faq } = data;
 export const images = { hero, mara, amboseli, nakuru };
@@ -221,14 +222,14 @@ export const destinationImage = (id: string) => {
     (destination && ["Kenya", "Uganda", "Tanzania"].includes(destination.c) ? hero : undefined)
   );
 };
-export const packageImage = (id: string) =>
-  id.includes("nakuru")
+export const packageImage = (id: string, imageUrl?: string) =>
+  imageUrl ?? (id.includes("nakuru")
     ? nakuru
     : id.includes("amboseli")
       ? amboseli
       : id.includes("nairobi")
         ? hero
-        : mara;
+      : mara);
 export const whatsapp = (message = "Hello Bushbells Safaris, I’d like to plan a safari.") =>
   `https://wa.me/254723803116?text=${encodeURIComponent(message)}`;
 export const pageHead = (title: string, description: string) => ({

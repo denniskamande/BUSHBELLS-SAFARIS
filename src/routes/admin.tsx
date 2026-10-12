@@ -13,9 +13,10 @@ import {
   type GalleryPhoto,
 } from "@/lib/gallery-service";
 import { destinations, pageHead } from "@/lib/safaris";
+import { PackageManager } from "@/components/package-manager";
 
 export const Route = createFileRoute("/admin")({
-  head: () => pageHead("Gallery Admin", "Manage Bushbells Safaris gallery photos."),
+  head: () => pageHead("Safari and Gallery Admin", "Manage Bushbells Safaris photos and safari packages."),
   component: AdminPage,
 });
 
@@ -40,6 +41,7 @@ function AdminPage() {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState<"gallery" | "safaris">("gallery");
 
   const refreshPhotos = useCallback(async () => {
     const { data, error: loadError } = await listGalleryPhotos();
@@ -136,8 +138,12 @@ function AdminPage() {
   async function movePhoto(index: number, offset: -1 | 1) {
     const nextIndex = index + offset;
     if (nextIndex < 0 || nextIndex >= photos.length) return;
+    const currentPhoto = photos[index];
+    const adjacentPhoto = photos[nextIndex];
+    if (!currentPhoto || !adjacentPhoto) return;
     const reordered = [...photos];
-    [reordered[index], reordered[nextIndex]] = [reordered[nextIndex], reordered[index]];
+    reordered[index] = adjacentPhoto;
+    reordered[nextIndex] = currentPhoto;
     setBusy(true);
     setError("");
     try {
@@ -169,8 +175,8 @@ function AdminPage() {
   return (
     <main>
       <PageHeading
-        title="Gallery admin"
-        description="Add safari photos with short descriptions, arrange them, or remove photos from the gallery."
+        title="Site admin"
+        description="Manage gallery photos and create or update safari packages."
       />
       <section className="section">
         <div className="wrap admin-wrap">
@@ -213,13 +219,21 @@ function AdminPage() {
           ) : adminAccess === "denied" ? (
             <div className="enquiry-panel admin-login" role="status">
               <h2>Admin access required</h2>
-              <p>This account does not have permission to manage gallery photos.</p>
+              <p>This account does not have permission to manage gallery photos or safaris.</p>
               <Button variant="outline" onClick={() => void supabase.auth.signOut()}>
                 <LogOut /> Sign out
               </Button>
             </div>
           ) : (
             <>
+              <div className="admin-section-tabs" role="tablist" aria-label="Admin sections">
+                <Button role="tab" aria-selected={activeTab === "gallery"} variant={activeTab === "gallery" ? "forest" : "outline"} onClick={() => setActiveTab("gallery")}>Gallery</Button>
+                <Button role="tab" aria-selected={activeTab === "safaris"} variant={activeTab === "safaris" ? "forest" : "outline"} onClick={() => setActiveTab("safaris")}>Safaris</Button>
+                <Button className="admin-tab-signout" variant="outline" disabled={busy} onClick={() => void supabase.auth.signOut()}>
+                  <LogOut /> Sign out
+                </Button>
+              </div>
+              {activeTab === "safaris" ? <PackageManager /> : <>
               <div className="admin-toolbar">
                 <div>
                   <h2>Manage gallery</h2>
@@ -227,13 +241,6 @@ function AdminPage() {
                     {photos.length} uploaded {photos.length === 1 ? "photo" : "photos"}
                   </p>
                 </div>
-                <Button
-                  variant="outline"
-                  disabled={busy}
-                  onClick={() => void supabase.auth.signOut()}
-                >
-                  <LogOut /> Sign out
-                </Button>
               </div>
               <form className="enquiry-panel admin-upload" onSubmit={upload}>
                 <h2>
@@ -362,6 +369,7 @@ function AdminPage() {
                   </article>
                 ))}
               </div>
+              </>}
             </>
           )}
           {!signedIn && error && (

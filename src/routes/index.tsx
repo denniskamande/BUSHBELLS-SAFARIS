@@ -18,7 +18,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PackageCard, DestinationCard, CTA } from "@/components/safari-site";
-import { packages, destinations, images, pageHead, experiences } from "@/lib/safaris";
+import { destinations, images, pageHead, experiences } from "@/lib/safaris";
+import { useSafariPackages } from "@/lib/use-safari-packages";
 import gameDrivePhoto from "@/assets/experiences/game-drive.jpg";
 import boatRidePhoto from "@/assets/experiences/boat-ride.jpg";
 import balloonPhoto from "@/assets/experiences/hot-air-balloon.jpg";
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 function Index() {
+  const { safaris } = useSafariPackages();
   const [country, setCountry] = useState("Kenya");
   const icons = [Car, Sailboat, Wind, Plane, Handshake, Footprints];
   const experiencePhotos = [
@@ -147,7 +149,7 @@ function Index() {
             </Button>
           </div>
           <div className="package-grid">
-            {packages.slice(0, 3).map((p) => (
+            {safaris.slice(0, 3).map((p) => (
               <PackageCard key={p.id} p={p} />
             ))}
           </div>
