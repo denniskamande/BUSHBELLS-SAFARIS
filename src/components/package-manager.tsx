@@ -2,7 +2,12 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { ImagePlus, Plus, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { destinations, packages as bundledPackages } from "@/lib/safaris";
-import { galleryPhotoUrl, listGalleryPhotos, type GalleryPhoto } from "@/lib/gallery-service";
+import {
+  galleryPhotoUrl,
+  listGalleryPhotos,
+  uploadGalleryPhoto,
+  type GalleryPhoto,
+} from "@/lib/gallery-service";
 import {
   deleteManagedPackage,
   listManagedPackages,
@@ -152,6 +157,24 @@ export function PackageManager() {
     }
   }
 
+  async function uploadCover(file?: File) {
+    if (!file) return;
+    setBusy(true);
+    setError("");
+    setNotice("");
+    try {
+      const title = draft.n.trim() || "Safari";
+      const photo = await uploadGalleryPhoto(file, `${title} cover`, `${title} cover photo`);
+      setPhotos((current) => [photo, ...current]);
+      updateDraft("imageUrl", galleryPhotoUrl(photo.storage_path));
+      setNotice("Cover photo uploaded and selected. Save the safari to publish your changes.");
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Could not upload the cover photo.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function removeSafari() {
     if (!selected || safaris.length <= 1) return;
     if (!window.confirm(`Remove “${selected.n}” from the website?`)) return;
@@ -177,7 +200,8 @@ export function PackageManager() {
         <div>
           <h2 id="package-manager-title">Manage safaris</h2>
           <p>
-            Add or update safari details, itinerary days, destinations and a gallery cover photo.
+            Create safaris, edit their details and itineraries, change cover photos, or remove
+            listings.
           </p>
         </div>
         <Button variant="forest" disabled={busy || loading} onClick={() => chooseSafari("")}>
@@ -273,7 +297,7 @@ export function PackageManager() {
                 ))}
               </fieldset>
               <div className="form-wide">
-                <label htmlFor="safari-cover">Cover photo from your gallery</label>
+                <label htmlFor="safari-cover">Choose a cover photo</label>
                 <select
                   id="safari-cover"
                   value={draft.imageUrl ?? ""}
@@ -288,11 +312,26 @@ export function PackageManager() {
                       </option>
                     ))}
                 </select>
-                {!photos.length && (
-                  <small>
-                    <ImagePlus size={14} /> Upload photos in the Gallery tab first, then choose one
-                    here.
-                  </small>
+                <label htmlFor="safari-cover-upload" className="package-cover-upload-label">
+                  <ImagePlus size={14} /> Or upload a new cover photo
+                </label>
+                <input
+                  id="safari-cover-upload"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/avif"
+                  disabled={busy}
+                  onChange={(event) => {
+                    const file = event.currentTarget.files?.[0];
+                    event.currentTarget.value = "";
+                    void uploadCover(file);
+                  }}
+                />
+                {draft.imageUrl && (
+                  <img
+                    className="package-cover-preview"
+                    src={draft.imageUrl}
+                    alt="Selected safari cover preview"
+                  />
                 )}
               </div>
             </div>

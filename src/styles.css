@@ -1504,6 +1504,24 @@ textarea {
   gap: 5px;
   margin-top: 6px;
 }
+.package-cover-upload-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.package-cover-preview {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 220px;
+  margin-top: 12px;
+  border-radius: 12px;
+  object-fit: cover;
+}
 .package-itinerary-editor {
   display: grid;
   gap: 12px;
