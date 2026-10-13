@@ -18,8 +18,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PackageCard, DestinationCard, CTA } from "@/components/safari-site";
-import { destinations, images, pageHead, experiences } from "@/lib/safaris";
+import { images, pageHead, experiences } from "@/lib/safaris";
 import { useSafariPackages } from "@/lib/use-safari-packages";
+import { useSafariDestinations } from "@/lib/use-safari-destinations";
 import gameDrivePhoto from "@/assets/experiences/game-drive.jpg";
 import boatRidePhoto from "@/assets/experiences/boat-ride.jpg";
 import balloonPhoto from "@/assets/experiences/hot-air-balloon.jpg";
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/")({
 });
 function Index() {
   const { safaris } = useSafariPackages();
+  const destinations = useSafariDestinations();
   const [country, setCountry] = useState("Kenya");
   const icons = [Car, Sailboat, Wind, Plane, Handshake, Footprints];
   const experiencePhotos = [

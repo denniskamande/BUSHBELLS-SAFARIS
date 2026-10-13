@@ -189,6 +189,10 @@ export const destinations = [...data.destinations, ...extraDestinations].map((de
       }
     : destination;
 });
+export type SafariDestination = (typeof destinations)[number] & {
+  imageUrl?: string;
+  sort_order?: number;
+};
 export const packages = operatorTours.slice().sort((a, b) => a.days - b.days);
 export const { experiences, faq } = data;
 export const images = { hero, mara, amboseli, nakuru };
@@ -215,7 +219,8 @@ const destinationPhotos: Record<string, string> = {
   "kilimanjaro-tanzania": amboseli,
   "serengeti-tanzania": mara,
 };
-export const destinationImage = (id: string) => {
+export const destinationImage = (id: string, imageUrl?: string) => {
+  if (imageUrl) return imageUrl;
   const destination = destinations.find((item) => item.id === id);
   return (
     destinationPhotos[id] ??

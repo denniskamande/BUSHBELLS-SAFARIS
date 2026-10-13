@@ -15,8 +15,15 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import bushbellsLogo from "@/assets/bushbells-logo.png";
-import { destinations, packageImage, destinationImage, whatsapp, images } from "@/lib/safaris";
+import {
+  packageImage,
+  destinationImage,
+  whatsapp,
+  images,
+  type SafariDestination,
+} from "@/lib/safaris";
 import { useSafariPackages } from "@/lib/use-safari-packages";
+import { useSafariDestinations } from "@/lib/use-safari-destinations";
 const nav = [
   { to: "/", name: "Home" },
   { to: "/packages", name: "Packages" },
@@ -232,6 +239,7 @@ export function PageHeading({ title, description }: { title: string; description
   );
 }
 export function PackageCard({ p }: { p: import("@/lib/operator-tours").SafariPackage }) {
+  const destinations = useSafariDestinations();
   return (
     <Link to="/packages/$slug" params={{ slug: p.id }} className="package-card">
       <div className="package-photo">
@@ -276,8 +284,8 @@ export function PackageCard({ p }: { p: import("@/lib/operator-tours").SafariPac
     </Link>
   );
 }
-export function DestinationCard({ d }: { d: (typeof destinations)[number] }) {
-  const image = destinationImage(d.id);
+export function DestinationCard({ d }: { d: SafariDestination }) {
+  const image = destinationImage(d.id, d.imageUrl);
   return (
     <Link to="/destinations/$slug" params={{ slug: d.id }} className="destination-card">
       {image && <img src={image} alt={d.n} loading="lazy" width={1024} height={768} />}

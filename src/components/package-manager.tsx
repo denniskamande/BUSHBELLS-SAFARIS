@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { ImagePlus, Plus, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { destinations, packages as bundledPackages } from "@/lib/safaris";
+import { packages as bundledPackages } from "@/lib/safaris";
+import { useSafariDestinations } from "@/lib/use-safari-destinations";
 import {
   galleryPhotoUrl,
   listGalleryPhotos,
@@ -41,6 +42,7 @@ function slugify(value: string) {
 }
 
 export function PackageManager() {
+  const destinations = useSafariDestinations();
   const [safaris, setSafaris] = useState<SafariPackage[]>(operatorTours);
   const [selectedId, setSelectedId] = useState("");
   const [draft, setDraft] = useState<SafariPackage>(blankPackage);

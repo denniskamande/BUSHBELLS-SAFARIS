@@ -12,8 +12,10 @@ import {
   uploadGalleryPhoto,
   type GalleryPhoto,
 } from "@/lib/gallery-service";
-import { destinations, pageHead } from "@/lib/safaris";
+import { pageHead } from "@/lib/safaris";
 import { PackageManager } from "@/components/package-manager";
+import { DestinationManager } from "@/components/destination-manager";
+import { useSafariDestinations } from "@/lib/use-safari-destinations";
 
 export const Route = createFileRoute("/admin")({
   head: () =>
@@ -42,7 +44,8 @@ function AdminPage() {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"gallery" | "safaris">("gallery");
+  const [activeTab, setActiveTab] = useState<"gallery" | "safaris" | "destinations">("gallery");
+  const currentDestinations = useSafariDestinations();
 
   const refreshPhotos = useCallback(async () => {
     const { data, error: loadError } = await listGalleryPhotos();
@@ -179,7 +182,7 @@ function AdminPage() {
     <main>
       <PageHeading
         title="Site admin"
-        description="Manage gallery photos and create or update safari packages."
+        description="Manage gallery photos, safari packages and destinations."
       />
       <section className="section">
         <div className="wrap admin-wrap">
@@ -224,7 +227,7 @@ function AdminPage() {
           ) : adminAccess === "denied" ? (
             <div className="enquiry-panel admin-login" role="status">
               <h2>Admin access required</h2>
-              <p>This account does not have permission to manage gallery photos or safaris.</p>
+              <p>This account does not have permission to manage gallery photos, safaris or destinations.</p>
               <Button variant="outline" onClick={() => void supabase.auth.signOut()}>
                 <LogOut /> Sign out
               </Button>
@@ -249,6 +252,14 @@ function AdminPage() {
                   Safaris
                 </Button>
                 <Button
+                  role="tab"
+                  aria-selected={activeTab === "destinations"}
+                  variant={activeTab === "destinations" ? "forest" : "outline"}
+                  onClick={() => setActiveTab("destinations")}
+                >
+                  Destinations
+                </Button>
+                <Button
                   className="admin-tab-signout"
                   variant="outline"
                   disabled={busy}
@@ -257,7 +268,9 @@ function AdminPage() {
                   <LogOut /> Sign out
                 </Button>
               </div>
-              {activeTab === "safaris" ? (
+              {activeTab === "destinations" ? (
+                <DestinationManager />
+              ) : activeTab === "safaris" ? (
                 <PackageManager />
               ) : (
                 <>
@@ -318,7 +331,7 @@ function AdminPage() {
                           onChange={(event) => setPlacement(event.target.value)}
                         >
                           <option value="">Gallery only</option>
-                          {destinations.map((destination) => (
+                          {currentDestinations.map((destination) => (
                             <optgroup key={destination.id} label={destination.n}>
                               {destination.l.map((highlight) => (
                                 <option
@@ -371,7 +384,7 @@ function AdminPage() {
                           {photo.destination_id && photo.highlight && (
                             <span>
                               Also shown in{" "}
-                              {destinations.find((item) => item.id === photo.destination_id)?.n ??
+                              {currentDestinations.find((item) => item.id === photo.destination_id)?.n ??
                                 photo.destination_id}
                               : {photo.highlight}
                             </span>
