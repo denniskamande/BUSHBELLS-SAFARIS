@@ -110,12 +110,12 @@ function AdminPage() {
     const input = form.elements.namedItem("photos") as HTMLInputElement;
     const files = Array.from(input.files ?? []);
     if (!files.length) {
-      setError("Choose at least one image to upload.");
+      setError("Choose at least one photo or video to upload.");
       return;
     }
     setBusy(true);
     setError("");
-    setNotice("Uploading photos…");
+    setNotice("Uploading gallery media…");
     try {
       const [destinationId, highlight] = placement ? placement.split("::") : ["", ""];
       for (const file of files) {
@@ -128,7 +128,7 @@ function AdminPage() {
       setPlacement("");
       await refreshPhotos();
       setNotice(
-        `${files.length} ${files.length === 1 ? "photo was" : "photos were"} added to the gallery.`,
+        `${files.length} ${files.length === 1 ? "item was" : "items were"} added to the gallery.`,
       );
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Photo upload failed.");
@@ -265,22 +265,25 @@ function AdminPage() {
                     <div>
                       <h2>Manage gallery</h2>
                       <p>
-                        {photos.length} uploaded {photos.length === 1 ? "photo" : "photos"}
+                        {photos.length} gallery {photos.length === 1 ? "item" : "items"} ·{" "}
+                        {photos.filter((photo) => photo.media_type === "video").length} videos
                       </p>
                     </div>
                   </div>
                   <form className="enquiry-panel admin-upload" onSubmit={upload}>
                     <h2>
-                      <ImagePlus /> Add photos
+                      <ImagePlus /> Add photos or videos
                     </h2>
                     <div className="form-grid">
                       <div className="form-wide">
-                        <label htmlFor="gallery-files">Choose image files</label>
+                        <label htmlFor="gallery-files">
+                          Choose photos or videos (up to 15 MB each)
+                        </label>
                         <input
                           id="gallery-files"
                           name="photos"
                           type="file"
-                          accept="image/jpeg,image/png,image/webp,image/avif"
+                          accept="image/jpeg,image/png,image/webp,image/avif,video/mp4,video/webm"
                           multiple
                           required
                         />
@@ -334,9 +337,9 @@ function AdminPage() {
                       </Button>
                     </div>
                     <p className="admin-note">
-                      Choose a destination highlight to show these photos there as well as in the
-                      main gallery. You can select several images at once; the caption, description
-                      and placement apply to all selected files.
+                      Photos can also appear in a destination highlight. Videos are shown in the
+                      main gallery only. You can select several files at once; the caption and
+                      accessibility description apply to all selected files.
                     </p>
                   </form>
                   {notice && (
@@ -352,7 +355,16 @@ function AdminPage() {
                   <div className="admin-photo-list">
                     {photos.map((photo, index) => (
                       <article className="admin-photo" key={photo.id}>
-                        <img src={galleryPhotoUrl(photo.storage_path)} alt={photo.alt_text} />
+                        {photo.media_type === "video" ? (
+                          <video
+                            src={galleryPhotoUrl(photo.storage_path)}
+                            controls
+                            preload="metadata"
+                            aria-label={photo.alt_text || photo.caption}
+                          />
+                        ) : (
+                          <img src={galleryPhotoUrl(photo.storage_path)} alt={photo.alt_text} />
+                        )}
                         <div className="admin-photo-info">
                           <strong>{photo.caption}</strong>
                           <span>{photo.alt_text}</span>

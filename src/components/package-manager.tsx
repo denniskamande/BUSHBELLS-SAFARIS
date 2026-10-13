@@ -280,11 +280,13 @@ export function PackageManager() {
                   onChange={(event) => updateDraft("imageUrl", event.target.value || undefined)}
                 >
                   <option value="">Use the website’s default safari photo</option>
-                  {photos.map((photo) => (
-                    <option key={photo.id} value={galleryPhotoUrl(photo.storage_path)}>
-                      {photo.caption}
-                    </option>
-                  ))}
+                  {photos
+                    .filter((photo) => photo.media_type !== "video")
+                    .map((photo) => (
+                      <option key={photo.id} value={galleryPhotoUrl(photo.storage_path)}>
+                        {photo.caption}
+                      </option>
+                    ))}
                 </select>
                 {!photos.length && (
                   <small>

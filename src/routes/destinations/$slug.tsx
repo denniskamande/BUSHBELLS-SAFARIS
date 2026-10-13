@@ -117,7 +117,9 @@ function Page() {
             <h3>Highlights</h3>
             <ul className="destination-highlights">
               {d.l.map((highlight) => {
-                const uploaded = destinationPhotos.filter((photo) => photo.highlight === highlight);
+                const uploaded = destinationPhotos.filter(
+                  (photo) => photo.highlight === highlight && photo.media_type !== "video",
+                );
                 return (
                   <li key={highlight}>
                     <div className="destination-highlight-images">

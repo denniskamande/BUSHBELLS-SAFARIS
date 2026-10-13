@@ -7,9 +7,8 @@ import {
   listGalleryPhotos,
   type GalleryPhoto,
 } from "@/lib/gallery-service";
-import { images } from "@/lib/safaris";
 
-type PhotoView = { image: string; title: string; alt: string };
+type GalleryView = { mediaType: "image" | "video"; src: string; title: string; alt: string };
 
 export function Gallery() {
   const [uploaded, setUploaded] = useState<GalleryPhoto[]>([]);
@@ -30,7 +29,7 @@ export function Gallery() {
         if (active && !error && data) setUploaded(data as GalleryPhoto[]);
       })
       .catch(() => {
-        // The bundled gallery remains available if Supabase cannot be reached.
+        // Keep the gallery empty if Supabase cannot be reached.
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -40,21 +39,12 @@ export function Gallery() {
     };
   }, []);
 
-  const photos: PhotoView[] = [
-    ...uploaded.map((photo) => ({
-      image: galleryPhotoUrl(photo.storage_path),
-      title: photo.caption,
-      alt: photo.alt_text,
-    })),
-    { image: images.mara, title: "Lions of the Maasai Mara", alt: "Lion in the Maasai Mara" },
-    {
-      image: images.amboseli,
-      title: "Elephants beneath Kilimanjaro",
-      alt: "Elephants beneath Mount Kilimanjaro",
-    },
-    { image: images.nakuru, title: "Flamingos at Lake Nakuru", alt: "Flamingos on Lake Nakuru" },
-    { image: images.hero, title: "The East African savannah", alt: "East African savannah" },
-  ];
+  const photos: GalleryView[] = uploaded.map((photo) => ({
+    mediaType: photo.media_type ?? "image",
+    src: galleryPhotoUrl(photo.storage_path),
+    title: photo.caption,
+    alt: photo.alt_text,
+  }));
   const photoCount = photos.length;
 
   useEffect(() => {
@@ -78,15 +68,35 @@ export function Gallery() {
         </p>
       )}
       <div className="gallery-grid">
+        {!loading && photos.length === 0 && (
+          <p className="gallery-status" role="status">
+            New safari photos and videos are coming soon.
+          </p>
+        )}
         {photos.map((photo, index) => (
           <Button
-            key={`${photo.image}-${photo.title}`}
+            key={`${photo.src}-${photo.title}`}
             variant="ghost"
             className="gallery-tile"
             onClick={() => setCurrent(index)}
-            aria-label={`View ${photo.title}`}
+            aria-label={`View ${photo.mediaType === "video" ? "video" : "photo"}: ${photo.title}`}
           >
-            <img src={photo.image} alt={photo.alt} width={1024} height={768} loading="lazy" />
+            {photo.mediaType === "video" ? (
+              <>
+                <video
+                  src={photo.src}
+                  aria-label={photo.alt || photo.title}
+                  muted
+                  playsInline
+                  preload="metadata"
+                />
+                <span className="gallery-video-badge" aria-hidden="true">
+                  ▶ Video
+                </span>
+              </>
+            ) : (
+              <img src={photo.src} alt={photo.alt} width={1024} height={768} loading="lazy" />
+            )}
             <span>{photo.title} ↗</span>
           </Button>
         ))}
@@ -104,7 +114,7 @@ export function Gallery() {
             variant="heroOutline"
             size="icon"
             className="lightbox-close"
-            aria-label="Close photo"
+            aria-label="Close media"
             onClick={() => setCurrent(null)}
           >
             <X />
@@ -112,7 +122,7 @@ export function Gallery() {
           <Button
             variant="heroOutline"
             size="icon"
-            aria-label="Previous photo"
+            aria-label="Previous item"
             onClick={(event) => {
               event.stopPropagation();
               setCurrent((current + photoCount - 1) % photoCount);
@@ -121,17 +131,28 @@ export function Gallery() {
             <ChevronLeft />
           </Button>
           <figure className="lightbox-figure">
-            <img
-              src={photos[current]?.image}
-              alt={photos[current]?.alt}
-              onClick={(event) => event.stopPropagation()}
-            />
+            {photos[current]?.mediaType === "video" ? (
+              <video
+                src={photos[current]?.src}
+                aria-label={photos[current]?.alt}
+                controls
+                autoPlay
+                playsInline
+                onClick={(event) => event.stopPropagation()}
+              />
+            ) : (
+              <img
+                src={photos[current]?.src}
+                alt={photos[current]?.alt}
+                onClick={(event) => event.stopPropagation()}
+              />
+            )}
             <figcaption>{photos[current]?.title}</figcaption>
           </figure>
           <Button
             variant="heroOutline"
             size="icon"
-            aria-label="Next photo"
+            aria-label="Next item"
             onClick={(event) => {
               event.stopPropagation();
               setCurrent((current + 1) % photoCount);

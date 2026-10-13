@@ -4,6 +4,7 @@ const bucket = "gallery";
 export type GalleryPhoto = {
   id: string;
   storage_path: string;
+  media_type?: "image" | "video";
   caption: string;
   alt_text: string;
   destination_id?: string | null;
@@ -64,6 +65,23 @@ export async function uploadGalleryPhoto(
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Please sign in before uploading photos.");
 
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/avif",
+    "video/mp4",
+    "video/webm",
+  ];
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error("Choose a JPG, PNG, WebP, AVIF, MP4 or WebM file.");
+  }
+  if (file.size > 15 * 1024 * 1024) {
+    throw new Error(
+      "Each gallery file must be 15 MB or smaller. Compress larger videos before uploading.",
+    );
+  }
+
   const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const path = `${user.id}/${crypto.randomUUID()}.${extension}`;
   const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, {
@@ -76,10 +94,11 @@ export async function uploadGalleryPhoto(
     .from("gallery_photos")
     .insert({
       storage_path: path,
+      media_type: file.type.startsWith("video/") ? "video" : "image",
       caption,
       alt_text: altText,
-      destination_id: destinationId || null,
-      highlight: highlight || null,
+      destination_id: file.type.startsWith("image/") ? destinationId || null : null,
+      highlight: file.type.startsWith("image/") ? highlight || null : null,
     })
     .select("*")
     .single();

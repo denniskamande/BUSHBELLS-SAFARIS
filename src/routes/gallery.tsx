@@ -6,13 +6,13 @@ export const Route = createFileRoute("/gallery")({
   head: () =>
     pageHead(
       "Safari Gallery",
-      "Wildlife and landscape photography from Bushbells Safaris journeys across East Africa.",
+      "Wildlife photos and safari videos from Bushbells Safaris journeys across East Africa.",
     ),
   component: () => (
     <main>
       <PageHeading
         title="A glimpse of the wild"
-        description="Wildlife encounters and landscapes from East Africa, with new photographs added by the Bushbells team."
+        description="Wildlife photos and safari videos from East Africa, with new media added by the Bushbells team."
       />
       <section className="section">
         <div className="wrap">

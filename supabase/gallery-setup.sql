@@ -26,13 +26,15 @@ create table if not exists public.gallery_photos (
   storage_path text not null unique,
   caption text not null,
   alt_text text not null,
+  media_type text not null default 'image' check (media_type in ('image', 'video')),
   sort_order integer not null default 0,
   created_at timestamptz not null default now()
 );
 
 alter table public.gallery_photos
   add column if not exists destination_id text,
-  add column if not exists highlight text;
+  add column if not exists highlight text,
+  add column if not exists media_type text not null default 'image' check (media_type in ('image', 'video'));
 
 create index if not exists gallery_photos_destination_highlight_idx
   on public.gallery_photos (destination_id, highlight);
@@ -71,21 +73,29 @@ create policy "Gallery admins can remove photo records"
   using (public.is_gallery_admin());
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('gallery', 'gallery', true, 15728640, array['image/jpeg', 'image/png', 'image/webp', 'image/avif'])
+values (
+  'gallery',
+  'gallery',
+  true,
+  15728640,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'video/mp4', 'video/webm']
+)
 on conflict (id) do update set
   public = excluded.public,
   file_size_limit = excluded.file_size_limit,
   allowed_mime_types = excluded.allowed_mime_types;
 
 drop policy if exists "Anyone can view gallery image files" on storage.objects;
-create policy "Anyone can view gallery image files"
+drop policy if exists "Anyone can view gallery media files" on storage.objects;
+create policy "Anyone can view gallery media files"
   on storage.objects
   for select
   to anon, authenticated
   using (bucket_id = 'gallery');
 
 drop policy if exists "Gallery admins can upload image files" on storage.objects;
-create policy "Gallery admins can upload image files"
+drop policy if exists "Gallery admins can upload gallery media files" on storage.objects;
+create policy "Gallery admins can upload gallery media files"
   on storage.objects
   for insert
   to authenticated
@@ -95,7 +105,8 @@ create policy "Gallery admins can upload image files"
   );
 
 drop policy if exists "Gallery admins can remove image files" on storage.objects;
-create policy "Gallery admins can remove image files"
+drop policy if exists "Gallery admins can remove gallery media files" on storage.objects;
+create policy "Gallery admins can remove gallery media files"
   on storage.objects
   for delete
   to authenticated
