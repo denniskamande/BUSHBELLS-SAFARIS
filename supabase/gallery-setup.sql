@@ -43,19 +43,32 @@ grant insert, update, delete on public.gallery_photos to authenticated;
 
 drop policy if exists "Anyone can view gallery photo records" on public.gallery_photos;
 create policy "Anyone can view gallery photo records"
-  on public.gallery_photos for select to anon, authenticated using (true);
+  on public.gallery_photos
+  for select
+  to anon, authenticated
+  using (true);
 
 drop policy if exists "Gallery admins can add photo records" on public.gallery_photos;
 create policy "Gallery admins can add photo records"
-  on public.gallery_photos for insert to authenticated with check (public.is_gallery_admin());
+  on public.gallery_photos
+  for insert
+  to authenticated
+  with check (public.is_gallery_admin());
 
 drop policy if exists "Gallery admins can edit photo records" on public.gallery_photos;
 create policy "Gallery admins can edit photo records"
-  on public.gallery_photos for update to authenticated using (public.is_gallery_admin()) with check (public.is_gallery_admin());
+  on public.gallery_photos
+  for update
+  to authenticated
+  using (public.is_gallery_admin())
+  with check (public.is_gallery_admin());
 
 drop policy if exists "Gallery admins can remove photo records" on public.gallery_photos;
 create policy "Gallery admins can remove photo records"
-  on public.gallery_photos for delete to authenticated using (public.is_gallery_admin());
+  on public.gallery_photos
+  for delete
+  to authenticated
+  using (public.is_gallery_admin());
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('gallery', 'gallery', true, 15728640, array['image/jpeg', 'image/png', 'image/webp', 'image/avif'])
@@ -66,15 +79,30 @@ on conflict (id) do update set
 
 drop policy if exists "Anyone can view gallery image files" on storage.objects;
 create policy "Anyone can view gallery image files"
-  on storage.objects for select to anon, authenticated using (bucket_id = 'gallery');
+  on storage.objects
+  for select
+  to anon, authenticated
+  using (bucket_id = 'gallery');
 
 drop policy if exists "Gallery admins can upload image files" on storage.objects;
 create policy "Gallery admins can upload image files"
-  on storage.objects for insert to authenticated with check (bucket_id = 'gallery' and public.is_gallery_admin());
+  on storage.objects
+  for insert
+  to authenticated
+  with check (
+    bucket_id = 'gallery'
+    and public.is_gallery_admin()
+  );
 
 drop policy if exists "Gallery admins can remove image files" on storage.objects;
 create policy "Gallery admins can remove image files"
-  on storage.objects for delete to authenticated using (bucket_id = 'gallery' and public.is_gallery_admin());
+  on storage.objects
+  for delete
+  to authenticated
+  using (
+    bucket_id = 'gallery'
+    and public.is_gallery_admin()
+  );
 
 -- Add an admin after inviting that person under Authentication > Users:
 -- insert into public.gallery_admins (user_id)

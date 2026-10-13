@@ -15,13 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import bushbellsLogo from "@/assets/bushbells-logo.png";
-import {
-  destinations,
-  packageImage,
-  destinationImage,
-  whatsapp,
-  images,
-} from "@/lib/safaris";
+import { destinations, packageImage, destinationImage, whatsapp, images } from "@/lib/safaris";
 import { useSafariPackages } from "@/lib/use-safari-packages";
 const nav = [
   { to: "/", name: "Home" },
@@ -156,8 +150,10 @@ export function SiteFooter() {
               <p>
                 10633-00200 City Square, Nairobi
                 <br />
-                <a href="mailto:bookings.bushbellssafaris@gmail.com">bookings.bushbellssafaris@gmail.com</a> ·{" "}
-                <a href="tel:+254723803116">+254 723 803 116</a>
+                <a href="mailto:bookings.bushbellssafaris@gmail.com">
+                  bookings.bushbellssafaris@gmail.com
+                </a>{" "}
+                · <a href="tel:+254723803116">+254 723 803 116</a>
               </p>
             </div>
             <div>
@@ -333,7 +329,13 @@ export function EnquiryForm({
         </div>
         <div>
           <label htmlFor={`${formId}-email`}>Email address</label>
-          <input id={`${formId}-email`} type="email" name="email" placeholder="you@example.com" required />
+          <input
+            id={`${formId}-email`}
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
         </div>
         <div className="form-wide">
           <label htmlFor={`${formId}-package`}>Your safari</label>

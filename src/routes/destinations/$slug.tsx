@@ -21,12 +21,47 @@ import hikingPhoto from "@/assets/experiences/mount-kenya-hike.jpg";
 function highlightPhoto(destinationId: string, highlight: string) {
   const text = highlight.toLowerCase();
   if (text.includes("balloon")) return balloonPhoto;
-  if (text.includes("cultur") || text.includes("maasai") || text.includes("samburu") || text.includes("batwa")) return culturePhoto;
-  if (text.includes("boat") || text.includes("dhow") || text.includes("hippo") || text.includes("snorkel")) return boatRidePhoto;
+  if (
+    text.includes("cultur") ||
+    text.includes("maasai") ||
+    text.includes("samburu") ||
+    text.includes("batwa")
+  )
+    return culturePhoto;
+  if (
+    text.includes("boat") ||
+    text.includes("dhow") ||
+    text.includes("hippo") ||
+    text.includes("snorkel")
+  )
+    return boatRidePhoto;
   if (text.includes("fly") || text.includes("flight")) return flyingSafariPhoto;
-  if (text.includes("hik") || text.includes("trek") || text.includes("cycle") || text.includes("walk") || text.includes("climb") || text.includes("trail")) return hikingPhoto;
+  if (
+    text.includes("hik") ||
+    text.includes("trek") ||
+    text.includes("cycle") ||
+    text.includes("walk") ||
+    text.includes("climb") ||
+    text.includes("trail")
+  )
+    return hikingPhoto;
   if (text.includes("bird") || text.includes("flamingo")) return boatRidePhoto;
-  if (text.includes("wildlife") || text.includes("game") || text.includes("cat") || text.includes("elephant") || text.includes("rhino") || text.includes("giraffe") || text.includes("zebra") || text.includes("lion") || text.includes("leopard") || text.includes("gorilla") || text.includes("chimp") || text.includes("buffalo") || text.includes("migration")) return gameDrivePhoto;
+  if (
+    text.includes("wildlife") ||
+    text.includes("game") ||
+    text.includes("cat") ||
+    text.includes("elephant") ||
+    text.includes("rhino") ||
+    text.includes("giraffe") ||
+    text.includes("zebra") ||
+    text.includes("lion") ||
+    text.includes("leopard") ||
+    text.includes("gorilla") ||
+    text.includes("chimp") ||
+    text.includes("buffalo") ||
+    text.includes("migration")
+  )
+    return gameDrivePhoto;
   return destinationImage(destinationId) ?? gameDrivePhoto;
 }
 

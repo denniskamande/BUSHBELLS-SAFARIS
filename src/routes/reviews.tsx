@@ -52,7 +52,10 @@ function ReviewsPage() {
               </div>
               <span>SafariBookings review</span>
             </div>
-            <h2>“Very helpful company, and the driver was excellent. He created a wonderful day for us”</h2>
+            <h2>
+              “Very helpful company, and the driver was excellent. He created a wonderful day for
+              us”
+            </h2>
             <p className="review-meta">Kristoffer · Denmark · August 17, 2026</p>
             <p className="review-attribution">
               Review shown with attribution. Read the full review and all guest feedback on the

@@ -16,20 +16,35 @@ grant insert, update, delete on public.safari_packages to authenticated;
 
 drop policy if exists "Anyone can view safari packages" on public.safari_packages;
 create policy "Anyone can view safari packages"
-  on public.safari_packages for select to anon, authenticated using (true);
+  on public.safari_packages
+  for select
+  to anon, authenticated
+  using (true);
 
 drop policy if exists "Gallery admins can add safari packages" on public.safari_packages;
 create policy "Gallery admins can add safari packages"
-  on public.safari_packages for insert to authenticated
-  with check (public.is_gallery_admin() and id = (package_data ->> 'id'));
+  on public.safari_packages
+  for insert
+  to authenticated
+  with check (
+    public.is_gallery_admin()
+    and id = (package_data ->> 'id')
+  );
 
 drop policy if exists "Gallery admins can edit safari packages" on public.safari_packages;
 create policy "Gallery admins can edit safari packages"
-  on public.safari_packages for update to authenticated
+  on public.safari_packages
+  for update
+  to authenticated
   using (public.is_gallery_admin())
-  with check (public.is_gallery_admin() and id = (package_data ->> 'id'));
+  with check (
+    public.is_gallery_admin()
+    and id = (package_data ->> 'id')
+  );
 
 drop policy if exists "Gallery admins can remove safari packages" on public.safari_packages;
 create policy "Gallery admins can remove safari packages"
-  on public.safari_packages for delete to authenticated
+  on public.safari_packages
+  for delete
+  to authenticated
   using (public.is_gallery_admin());

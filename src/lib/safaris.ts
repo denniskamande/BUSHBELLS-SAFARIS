@@ -223,13 +223,14 @@ export const destinationImage = (id: string) => {
   );
 };
 export const packageImage = (id: string, imageUrl?: string) =>
-  imageUrl ?? (id.includes("nakuru")
+  imageUrl ??
+  (id.includes("nakuru")
     ? nakuru
     : id.includes("amboseli")
       ? amboseli
       : id.includes("nairobi")
         ? hero
-      : mara);
+        : mara);
 export const whatsapp = (message = "Hello Bushbells Safaris, I’d like to plan a safari.") =>
   `https://wa.me/254723803116?text=${encodeURIComponent(message)}`;
 export const pageHead = (title: string, description: string) => ({

@@ -74,12 +74,8 @@ export function KenyaRouteMap({
     ],
     [endAt, endPoint, includeStart, mappedStops],
   );
-  const routePath =
-    route.length > 1 ? `M ${route.map(({ x, y }) => `${x} ${y}`).join(" L ")}` : "";
-  const sharedNairobiFinish =
-    includeStart &&
-    route.at(-1)?.x === 161 &&
-    route.at(-1)?.y === 315;
+  const routePath = route.length > 1 ? `M ${route.map(({ x, y }) => `${x} ${y}`).join(" L ")}` : "";
+  const sharedNairobiFinish = includeStart && route.at(-1)?.x === 161 && route.at(-1)?.y === 315;
   const markerStops = sharedNairobiFinish ? route.slice(0, -1) : route;
 
   useEffect(() => {
@@ -140,13 +136,17 @@ export function KenyaRouteMap({
     };
   }, [route]);
 
-  const activeStop = cursor?.stopIndex === null || cursor?.stopIndex === undefined
-    ? undefined
-    : route[cursor.stopIndex];
-  const tooltipWidth = activeStop ? Math.min(210, Math.max(112, activeStop.stop.name.length * 5.5 + 20)) : 0;
-  const tooltipX = activeStop && cursor
-    ? Math.max(4, Math.min(416 - tooltipWidth, cursor.x - tooltipWidth / 2))
+  const activeStop =
+    cursor?.stopIndex === null || cursor?.stopIndex === undefined
+      ? undefined
+      : route[cursor.stopIndex];
+  const tooltipWidth = activeStop
+    ? Math.min(210, Math.max(112, activeStop.stop.name.length * 5.5 + 20))
     : 0;
+  const tooltipX =
+    activeStop && cursor
+      ? Math.max(4, Math.min(416 - tooltipWidth, cursor.x - tooltipWidth / 2))
+      : 0;
   const tooltipY = cursor ? Math.max(4, cursor.y - 54) : 0;
 
   return (
@@ -170,7 +170,13 @@ export function KenyaRouteMap({
           >
             <defs>
               <filter id="route-marker-shadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#172217" floodOpacity=".2" />
+                <feDropShadow
+                  dx="0"
+                  dy="2"
+                  stdDeviation="2"
+                  floodColor="#172217"
+                  floodOpacity=".2"
+                />
               </filter>
               <marker
                 id="safari-route-arrow"
@@ -193,11 +199,20 @@ export function KenyaRouteMap({
             {/* Public-domain Kenya outline from Wikimedia Commons, based on geographic data. */}
             <image href={kenyaOutline} x="0" y="0" width="420" height="500" />
             <g className="kenya-map-geography" aria-hidden="true">
-              <path className="kenya-map-water-shape" d="M 0 286 C 20 278 45 282 66 297 L 76 315 C 58 324 31 322 0 310 Z" />
-              <path className="kenya-map-water-shape" d="M 113 65 C 121 51 132 54 135 69 L 142 103 C 144 118 137 134 130 139 C 120 127 116 105 113 65 Z" />
+              <path
+                className="kenya-map-water-shape"
+                d="M 0 286 C 20 278 45 282 66 297 L 76 315 C 58 324 31 322 0 310 Z"
+              />
+              <path
+                className="kenya-map-water-shape"
+                d="M 113 65 C 121 51 132 54 135 69 L 142 103 C 144 118 137 134 130 139 C 120 127 116 105 113 65 Z"
+              />
               <ellipse className="kenya-map-water-shape" cx="125" cy="264" rx="7" ry="4" />
               <ellipse className="kenya-map-water-shape" cx="138" cy="286" rx="8" ry="5" />
-              <path className="kenya-map-rift" d="M 123 131 C 115 176 131 205 123 241 C 119 260 132 275 138 292" />
+              <path
+                className="kenya-map-rift"
+                d="M 123 131 C 115 176 131 205 123 241 C 119 260 132 275 138 292"
+              />
               <ellipse className="kenya-map-reserve" cx="79" cy="321" rx="26" ry="17" />
               <ellipse className="kenya-map-reserve" cx="198" cy="220" rx="25" ry="19" />
               <ellipse className="kenya-map-reserve" cx="164" cy="251" rx="22" ry="14" />
@@ -246,7 +261,12 @@ export function KenyaRouteMap({
                   d={`M ${cursor.x} ${cursor.y - 9} L ${cursor.x} ${tooltipY + 42}`}
                 />
                 <g transform={`translate(${tooltipX} ${tooltipY})`}>
-                  <rect className="kenya-stop-tooltip-box" width={tooltipWidth} height="42" rx="5" />
+                  <rect
+                    className="kenya-stop-tooltip-box"
+                    width={tooltipWidth}
+                    height="42"
+                    rx="5"
+                  />
                   <text className="kenya-stop-tooltip-day" x="9" y="15">
                     {activeStop.stop.dayLabel ?? `Day ${activeStop.index + 1}`}
                   </text>

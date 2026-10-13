@@ -455,7 +455,7 @@ p {
   color: var(--forest);
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: .14em;
+  letter-spacing: 0.14em;
 }
 .kenya-route-heading p {
   margin: 5px 0 0;
@@ -473,7 +473,7 @@ p {
 }
 .kenya-route-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
   border-top: 1px solid var(--border);
 }
 .kenya-map-frame {
@@ -499,11 +499,11 @@ p {
   fill: none;
   stroke: #b4dce9;
   stroke-width: 2;
-  opacity: .75;
+  opacity: 0.75;
 }
 .kenya-map-reserve {
   fill: #98ad7f;
-  opacity: .34;
+  opacity: 0.34;
 }
 .kenya-route-underlay,
 .kenya-route-line {
@@ -529,7 +529,7 @@ p {
 .kenya-route-arrowhead {
   fill: #b3191e;
   opacity: 0;
-  animation: safari-route-arrow-reveal .25s ease 3.2s forwards;
+  animation: safari-route-arrow-reveal 0.25s ease 3.2s forwards;
 }
 .kenya-route-cursor {
   filter: drop-shadow(0 1px 2px rgb(34 28 18 / 45%));
@@ -640,21 +640,42 @@ p {
   font-size: 13px;
 }
 @keyframes safari-route-draw {
-  to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 @keyframes safari-route-arrow-reveal {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes safari-marker-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  55% { opacity: .58; transform: scale(1.3); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  55% {
+    opacity: 0.58;
+    transform: scale(1.3);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .kenya-route-line,
-  .kenya-route-underlay { stroke-dashoffset: 0; animation: none; }
-  .kenya-route-arrowhead { opacity: 1; animation: none; }
-  .kenya-route-cursor { display: none; }
-  .kenya-route-marker-ring { animation: none; }
+  .kenya-route-underlay {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .kenya-route-arrowhead {
+    opacity: 1;
+    animation: none;
+  }
+  .kenya-route-cursor {
+    display: none;
+  }
+  .kenya-route-marker-ring {
+    animation: none;
+  }
 }
 .package-route {
   color: var(--muted-foreground);
@@ -959,7 +980,9 @@ textarea {
   place-items: center;
   border-radius: 50%;
   border: 3px solid var(--background);
-  box-shadow: 0 0 0 1px var(--border), 0 3px 10px rgb(0 0 0 / 14%);
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 3px 10px rgb(0 0 0 / 14%);
   font-family: var(--font-heading);
   font-size: 11px;
   font-weight: 700;
@@ -1469,7 +1492,7 @@ textarea {
 }
 .package-day-editor {
   display: grid;
-  grid-template-columns: 70px minmax(180px, .8fr) minmax(240px, 1.5fr) 40px;
+  grid-template-columns: 70px minmax(180px, 0.8fr) minmax(240px, 1.5fr) 40px;
   align-items: start;
   gap: 12px;
   padding: 14px;

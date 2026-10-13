@@ -11,7 +11,8 @@ const buttonVariants = cva(
       variant: {
         safari: "bg-primary text-primary-foreground hover:bg-primary/85 h-11 px-5 shadow-none",
         forest: "bg-forest text-on-forest hover:bg-forest/90 h-11 px-5 shadow-none",
-        heroOutline: "border border-on-forest/50 bg-transparent text-on-forest hover:bg-on-forest/10 h-11 px-5",
+        heroOutline:
+          "border border-on-forest/50 bg-transparent text-on-forest hover:bg-on-forest/10 h-11 px-5",
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:

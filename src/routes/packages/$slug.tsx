@@ -19,7 +19,14 @@ function Page() {
   if (!p) {
     return (
       <main>
-        <PageHeading title={loaded ? "Safari not found" : "Loading safari…"} description={loaded ? "This safari may have been removed. Browse our other journeys." : "Loading safari details."} />
+        <PageHeading
+          title={loaded ? "Safari not found" : "Loading safari…"}
+          description={
+            loaded
+              ? "This safari may have been removed. Browse our other journeys."
+              : "Loading safari details."
+          }
+        />
       </main>
     );
   }
@@ -61,11 +68,12 @@ function Page() {
     return [{ id: place.id, name: place.n, ...(dayLabel ? { dayLabel } : {}) }];
   });
   const finalDay = p.it.at(-1)?.join(" ").toLowerCase() ?? "";
-  const routeEnd = p.days > 0.5 && /moi (international )?airport/.test(finalDay)
-    ? { id: "mombasa", name: "Moi Airport" }
-    : p.days > 0.5 && /nairobi/.test(finalDay)
-      ? { id: "nairobi", name: "Nairobi (City)" }
-      : undefined;
+  const routeEnd =
+    p.days > 0.5 && /moi (international )?airport/.test(finalDay)
+      ? { id: "mombasa", name: "Moi Airport" }
+      : p.days > 0.5 && /nairobi/.test(finalDay)
+        ? { id: "nairobi", name: "Nairobi (City)" }
+        : undefined;
 
   return (
     <main>
@@ -87,13 +95,17 @@ function Page() {
                 {p.days > 1 ? ` · ${p.days - 1} nights` : ""}
               </div>
               <div>
-                <small>Estimated price per person (USD)</small>{p.priceEstimate}
+                <small>Estimated price per person (USD)</small>
+                {p.priceEstimate}
               </div>
               <div>
                 <small>Departure</small>Nairobi
               </div>
             </div>
-            <p className="pricing-note">Indicative SafariBookings prices for two travelers. Rates vary with season, availability, accommodation and final inclusions; request a current quote.</p>
+            <p className="pricing-note">
+              Indicative SafariBookings prices for two travelers. Rates vary with season,
+              availability, accommodation and final inclusions; request a current quote.
+            </p>
             <h2>About this safari</h2>
             <p>{p.t}</p>
             <h3>Day-by-day safari itinerary</h3>
@@ -122,11 +134,11 @@ function Page() {
             />
             {kenyaStops.length > 0 &&
               p.ds.some((id) => destinations.find((place) => place.id === id)?.c !== "Kenya") && (
-              <p className="route-map-note">
-                This map shows the Kenya stops. Any Uganda or Tanzania destinations on this
-                itinerary are listed in the itinerary above.
-              </p>
-            )}
+                <p className="route-map-note">
+                  This map shows the Kenya stops. Any Uganda or Tanzania destinations on this
+                  itinerary are listed in the itinerary above.
+                </p>
+              )}
           </div>
           <EnquiryForm initialPackage={p.n} compact />
         </div>

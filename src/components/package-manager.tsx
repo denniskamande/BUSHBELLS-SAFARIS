@@ -52,7 +52,9 @@ export function PackageManager() {
         const { data, error: loadError } = await listManagedPackages();
         if (!alive) return;
         if (loadError) {
-          setError("Safari storage is not set up yet. Run supabase/package-manager-setup.sql in your Supabase SQL Editor, then reload this page.");
+          setError(
+            "Safari storage is not set up yet. Run supabase/package-manager-setup.sql in your Supabase SQL Editor, then reload this page.",
+          );
         } else if (!data?.length) {
           await saveManagedPackages(operatorTours);
           if (alive) {
@@ -63,7 +65,8 @@ export function PackageManager() {
           setSafaris(data);
         }
       } catch (reason) {
-        if (alive) setError(reason instanceof Error ? reason.message : "Could not load the safari list.");
+        if (alive)
+          setError(reason instanceof Error ? reason.message : "Could not load the safari list.");
       } finally {
         if (alive) setLoading(false);
       }
@@ -86,7 +89,11 @@ export function PackageManager() {
   function chooseSafari(id: string) {
     setSelectedId(id);
     const found = safaris.find((safari) => safari.id === id);
-    setDraft(found ? { ...found, it: found.it.map((day) => [...day] as [string, string]) } : blankPackage());
+    setDraft(
+      found
+        ? { ...found, it: found.it.map((day) => [...day] as [string, string]) }
+        : blankPackage(),
+    );
     setNotice("");
     setError("");
   }
@@ -130,7 +137,9 @@ export function PackageManager() {
     setNotice("");
     try {
       await saveManagedPackage(safari);
-      const next = [...safaris.filter((item) => item.id !== safari.id), safari].sort((a, b) => a.days - b.days);
+      const next = [...safaris.filter((item) => item.id !== safari.id), safari].sort(
+        (a, b) => a.days - b.days,
+      );
       setSafaris(next);
       setSelectedId(safari.id);
       setDraft(safari);
@@ -167,21 +176,35 @@ export function PackageManager() {
       <div className="admin-toolbar">
         <div>
           <h2 id="package-manager-title">Manage safaris</h2>
-          <p>Add or update safari details, itinerary days, destinations and a gallery cover photo.</p>
+          <p>
+            Add or update safari details, itinerary days, destinations and a gallery cover photo.
+          </p>
         </div>
         <Button variant="forest" disabled={busy || loading} onClick={() => chooseSafari("")}>
           <Plus /> New safari
         </Button>
       </div>
 
-      {loading ? <p className="admin-note" role="status">Loading safaris…</p> : (
+      {loading ? (
+        <p className="admin-note" role="status">
+          Loading safaris…
+        </p>
+      ) : (
         <>
           {safaris.length > 0 && (
             <div className="package-manager-select">
               <label htmlFor="managed-safari">Choose a safari to edit</label>
-              <select id="managed-safari" value={selectedId} onChange={(event) => chooseSafari(event.target.value)}>
+              <select
+                id="managed-safari"
+                value={selectedId}
+                onChange={(event) => chooseSafari(event.target.value)}
+              >
                 <option value="">New safari</option>
-                {safaris.map((safari) => <option key={safari.id} value={safari.id}>{safari.n}</option>)}
+                {safaris.map((safari) => (
+                  <option key={safari.id} value={safari.id}>
+                    {safari.n}
+                  </option>
+                ))}
               </select>
             </div>
           )}
@@ -190,19 +213,44 @@ export function PackageManager() {
             <div className="form-grid">
               <div className="form-wide">
                 <label htmlFor="safari-name">Safari name</label>
-                <input id="safari-name" required value={draft.n} onChange={(event) => updateDraft("n", event.target.value)} placeholder="e.g. 5-Day Mara and Lake Safari" />
+                <input
+                  id="safari-name"
+                  required
+                  value={draft.n}
+                  onChange={(event) => updateDraft("n", event.target.value)}
+                  placeholder="e.g. 5-Day Mara and Lake Safari"
+                />
               </div>
               <div>
                 <label htmlFor="safari-days">Duration in days</label>
-                <input id="safari-days" type="number" min="0.5" step="0.5" required value={draft.days} onChange={(event) => updateDraft("days", Number(event.target.value))} />
+                <input
+                  id="safari-days"
+                  type="number"
+                  min="0.5"
+                  step="0.5"
+                  required
+                  value={draft.days}
+                  onChange={(event) => updateDraft("days", Number(event.target.value))}
+                />
               </div>
               <div>
                 <label htmlFor="safari-price">Estimated price per person</label>
-                <input id="safari-price" value={draft.priceEstimate} onChange={(event) => updateDraft("priceEstimate", event.target.value)} placeholder="e.g. $1,200–$1,600" />
+                <input
+                  id="safari-price"
+                  value={draft.priceEstimate}
+                  onChange={(event) => updateDraft("priceEstimate", event.target.value)}
+                  placeholder="e.g. $1,200–$1,600"
+                />
               </div>
               <div className="form-wide">
                 <label htmlFor="safari-intro">Short description</label>
-                <textarea id="safari-intro" required rows={4} value={draft.t} onChange={(event) => updateDraft("t", event.target.value)} />
+                <textarea
+                  id="safari-intro"
+                  required
+                  rows={4}
+                  value={draft.t}
+                  onChange={(event) => updateDraft("t", event.target.value)}
+                />
               </div>
               <fieldset className="form-wide package-destination-options">
                 <legend>Destinations on this safari</legend>
@@ -211,9 +259,14 @@ export function PackageManager() {
                     <input
                       type="checkbox"
                       checked={draft.ds.includes(destination.id)}
-                      onChange={(event) => updateDraft("ds", event.target.checked
-                        ? [...draft.ds, destination.id]
-                        : draft.ds.filter((id) => id !== destination.id))}
+                      onChange={(event) =>
+                        updateDraft(
+                          "ds",
+                          event.target.checked
+                            ? [...draft.ds, destination.id]
+                            : draft.ds.filter((id) => id !== destination.id),
+                        )
+                      }
                     />
                     {destination.n} <small>{destination.c}</small>
                   </label>
@@ -221,43 +274,125 @@ export function PackageManager() {
               </fieldset>
               <div className="form-wide">
                 <label htmlFor="safari-cover">Cover photo from your gallery</label>
-                <select id="safari-cover" value={draft.imageUrl ?? ""} onChange={(event) => updateDraft("imageUrl", event.target.value || undefined)}>
+                <select
+                  id="safari-cover"
+                  value={draft.imageUrl ?? ""}
+                  onChange={(event) => updateDraft("imageUrl", event.target.value || undefined)}
+                >
                   <option value="">Use the website’s default safari photo</option>
-                  {photos.map((photo) => <option key={photo.id} value={galleryPhotoUrl(photo.storage_path)}>{photo.caption}</option>)}
+                  {photos.map((photo) => (
+                    <option key={photo.id} value={galleryPhotoUrl(photo.storage_path)}>
+                      {photo.caption}
+                    </option>
+                  ))}
                 </select>
-                {!photos.length && <small><ImagePlus size={14} /> Upload photos in the Gallery tab first, then choose one here.</small>}
+                {!photos.length && (
+                  <small>
+                    <ImagePlus size={14} /> Upload photos in the Gallery tab first, then choose one
+                    here.
+                  </small>
+                )}
               </div>
             </div>
 
             <div className="package-itinerary-editor">
               <div className="admin-toolbar">
-                <div><h3>Day-by-day itinerary</h3><p>Add a heading and description for each day.</p></div>
-                <Button type="button" variant="outline" onClick={() => updateDraft("it", [...draft.it, ["", ""]])}><Plus /> Add day</Button>
+                <div>
+                  <h3>Day-by-day itinerary</h3>
+                  <p>Add a heading and description for each day.</p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => updateDraft("it", [...draft.it, ["", ""]])}
+                >
+                  <Plus /> Add day
+                </Button>
               </div>
               {draft.it.map(([title, description], index) => (
                 <div className="package-day-editor" key={`day-${index}`}>
                   <strong>{draft.days === 0.5 ? "Half-day" : `Day ${index + 1}`}</strong>
                   <label>
                     <span>Day heading</span>
-                    <input required value={title} onChange={(event) => updateDraft("it", draft.it.map((day, dayIndex) => dayIndex === index ? [event.target.value, day[1]] : day))} placeholder="e.g. Nairobi to the Masai Mara" />
+                    <input
+                      required
+                      value={title}
+                      onChange={(event) =>
+                        updateDraft(
+                          "it",
+                          draft.it.map((day, dayIndex) =>
+                            dayIndex === index ? [event.target.value, day[1]] : day,
+                          ),
+                        )
+                      }
+                      placeholder="e.g. Nairobi to the Masai Mara"
+                    />
                   </label>
                   <label>
                     <span>What happens this day?</span>
-                    <textarea required rows={3} value={description} onChange={(event) => updateDraft("it", draft.it.map((day, dayIndex) => dayIndex === index ? [day[0], event.target.value] : day))} />
+                    <textarea
+                      required
+                      rows={3}
+                      value={description}
+                      onChange={(event) =>
+                        updateDraft(
+                          "it",
+                          draft.it.map((day, dayIndex) =>
+                            dayIndex === index ? [day[0], event.target.value] : day,
+                          ),
+                        )
+                      }
+                    />
                   </label>
-                  <Button type="button" variant="outline" size="icon" aria-label={`Remove day ${index + 1}`} disabled={draft.it.length <= 1} onClick={() => updateDraft("it", draft.it.filter((_, dayIndex) => dayIndex !== index))}><Trash2 /></Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    aria-label={`Remove day ${index + 1}`}
+                    disabled={draft.it.length <= 1}
+                    onClick={() =>
+                      updateDraft(
+                        "it",
+                        draft.it.filter((_, dayIndex) => dayIndex !== index),
+                      )
+                    }
+                  >
+                    <Trash2 />
+                  </Button>
                 </div>
               ))}
             </div>
 
-            {notice && <p className="admin-notice" role="status">{notice}</p>}
-            {error && <p className="admin-error" role="alert">{error}</p>}
+            {notice && (
+              <p className="admin-notice" role="status">
+                {notice}
+              </p>
+            )}
+            {error && (
+              <p className="admin-error" role="alert">
+                {error}
+              </p>
+            )}
             <div className="package-editor-actions">
-              <Button type="submit" variant="forest" disabled={busy || loading}><Save /> {busy ? "Saving…" : "Save safari"}</Button>
-              {selected && <Button type="button" variant="outline" disabled={busy || safaris.length <= 1} onClick={() => void removeSafari()}><Trash2 /> Remove safari</Button>}
+              <Button type="submit" variant="forest" disabled={busy || loading}>
+                <Save /> {busy ? "Saving…" : "Save safari"}
+              </Button>
+              {selected && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={busy || safaris.length <= 1}
+                  onClick={() => void removeSafari()}
+                >
+                  <Trash2 /> Remove safari
+                </Button>
+              )}
             </div>
           </form>
-          <p className="admin-note">The existing {bundledPackages.length} safaris were copied into the admin catalogue on first setup. New and edited safaris appear on the public website after saving.</p>
+          <p className="admin-note">
+            The existing {bundledPackages.length} safaris were copied into the admin catalogue on
+            first setup. New and edited safaris appear on the public website after saving.
+          </p>
         </>
       )}
     </section>

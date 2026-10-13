@@ -20,22 +20,19 @@ export async function listManagedPackages() {
 export async function saveManagedPackage(safari: SafariPackage) {
   const supabase = getSupabaseClient();
   if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase.from("safari_packages").upsert(
-    { id: safari.id, days: safari.days, package_data: safari },
-    { onConflict: "id" },
-  );
+  const { error } = await supabase
+    .from("safari_packages")
+    .upsert({ id: safari.id, days: safari.days, package_data: safari }, { onConflict: "id" });
   if (error) throw error;
 }
 
 export async function saveManagedPackages(safaris: SafariPackage[]) {
   const supabase = getSupabaseClient();
   if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from("safari_packages")
-    .upsert(
-      safaris.map((safari) => ({ id: safari.id, days: safari.days, package_data: safari })),
-      { onConflict: "id" },
-    );
+  const { error } = await supabase.from("safari_packages").upsert(
+    safaris.map((safari) => ({ id: safari.id, days: safari.days, package_data: safari })),
+    { onConflict: "id" },
+  );
   if (error) throw error;
 }
 

@@ -16,7 +16,8 @@ import { destinations, pageHead } from "@/lib/safaris";
 import { PackageManager } from "@/components/package-manager";
 
 export const Route = createFileRoute("/admin")({
-  head: () => pageHead("Safari and Gallery Admin", "Manage Bushbells Safaris photos and safari packages."),
+  head: () =>
+    pageHead("Safari and Gallery Admin", "Manage Bushbells Safaris photos and safari packages."),
   component: AdminPage,
 });
 
@@ -87,7 +88,9 @@ function AdminPage() {
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!supabase) {
-      setError("Gallery sign-in is currently unavailable. Please connect the gallery service first.");
+      setError(
+        "Gallery sign-in is currently unavailable. Please connect the gallery service first.",
+      );
       return;
     }
     setBusy(true);
@@ -215,7 +218,9 @@ function AdminPage() {
               </p>
             </form>
           ) : adminAccess === "checking" ? (
-            <p className="admin-note" role="status">Checking gallery admin access…</p>
+            <p className="admin-note" role="status">
+              Checking gallery admin access…
+            </p>
           ) : adminAccess === "denied" ? (
             <div className="enquiry-panel admin-login" role="status">
               <h2>Admin access required</h2>
@@ -227,149 +232,176 @@ function AdminPage() {
           ) : (
             <>
               <div className="admin-section-tabs" role="tablist" aria-label="Admin sections">
-                <Button role="tab" aria-selected={activeTab === "gallery"} variant={activeTab === "gallery" ? "forest" : "outline"} onClick={() => setActiveTab("gallery")}>Gallery</Button>
-                <Button role="tab" aria-selected={activeTab === "safaris"} variant={activeTab === "safaris" ? "forest" : "outline"} onClick={() => setActiveTab("safaris")}>Safaris</Button>
-                <Button className="admin-tab-signout" variant="outline" disabled={busy} onClick={() => void supabase.auth.signOut()}>
+                <Button
+                  role="tab"
+                  aria-selected={activeTab === "gallery"}
+                  variant={activeTab === "gallery" ? "forest" : "outline"}
+                  onClick={() => setActiveTab("gallery")}
+                >
+                  Gallery
+                </Button>
+                <Button
+                  role="tab"
+                  aria-selected={activeTab === "safaris"}
+                  variant={activeTab === "safaris" ? "forest" : "outline"}
+                  onClick={() => setActiveTab("safaris")}
+                >
+                  Safaris
+                </Button>
+                <Button
+                  className="admin-tab-signout"
+                  variant="outline"
+                  disabled={busy}
+                  onClick={() => void supabase.auth.signOut()}
+                >
                   <LogOut /> Sign out
                 </Button>
               </div>
-              {activeTab === "safaris" ? <PackageManager /> : <>
-              <div className="admin-toolbar">
-                <div>
-                  <h2>Manage gallery</h2>
-                  <p>
-                    {photos.length} uploaded {photos.length === 1 ? "photo" : "photos"}
-                  </p>
-                </div>
-              </div>
-              <form className="enquiry-panel admin-upload" onSubmit={upload}>
-                <h2>
-                  <ImagePlus /> Add photos
-                </h2>
-                <div className="form-grid">
-                  <div className="form-wide">
-                    <label htmlFor="gallery-files">Choose image files</label>
-                    <input
-                      id="gallery-files"
-                      name="photos"
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp,image/avif"
-                      multiple
-                      required
-                    />
+              {activeTab === "safaris" ? (
+                <PackageManager />
+              ) : (
+                <>
+                  <div className="admin-toolbar">
+                    <div>
+                      <h2>Manage gallery</h2>
+                      <p>
+                        {photos.length} uploaded {photos.length === 1 ? "photo" : "photos"}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <label htmlFor="gallery-caption">Short description shown in the gallery</label>
-                    <input
-                      id="gallery-caption"
-                      value={caption}
-                      onChange={(event) => setCaption(event.target.value)}
-                      placeholder="Optional; defaults to file name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="gallery-alt">Accessibility description</label>
-                    <input
-                      id="gallery-alt"
-                      value={altText}
-                      onChange={(event) => setAltText(event.target.value)}
-                      placeholder="Optional; defaults to caption"
-                    />
-                  </div>
-                  <div className="form-wide">
-                    <label htmlFor="gallery-placement">Also show in a destination highlight</label>
-                    <select
-                      id="gallery-placement"
-                      value={placement}
-                      onChange={(event) => setPlacement(event.target.value)}
-                    >
-                      <option value="">Gallery only</option>
-                      {destinations.map((destination) => (
-                        <optgroup key={destination.id} label={destination.n}>
-                          {destination.l.map((highlight) => (
-                            <option
-                              key={`${destination.id}::${highlight}`}
-                              value={`${destination.id}::${highlight}`}
-                            >
-                              {highlight}
-                            </option>
+                  <form className="enquiry-panel admin-upload" onSubmit={upload}>
+                    <h2>
+                      <ImagePlus /> Add photos
+                    </h2>
+                    <div className="form-grid">
+                      <div className="form-wide">
+                        <label htmlFor="gallery-files">Choose image files</label>
+                        <input
+                          id="gallery-files"
+                          name="photos"
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp,image/avif"
+                          multiple
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="gallery-caption">
+                          Short description shown in the gallery
+                        </label>
+                        <input
+                          id="gallery-caption"
+                          value={caption}
+                          onChange={(event) => setCaption(event.target.value)}
+                          placeholder="Optional; defaults to file name"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="gallery-alt">Accessibility description</label>
+                        <input
+                          id="gallery-alt"
+                          value={altText}
+                          onChange={(event) => setAltText(event.target.value)}
+                          placeholder="Optional; defaults to caption"
+                        />
+                      </div>
+                      <div className="form-wide">
+                        <label htmlFor="gallery-placement">
+                          Also show in a destination highlight
+                        </label>
+                        <select
+                          id="gallery-placement"
+                          value={placement}
+                          onChange={(event) => setPlacement(event.target.value)}
+                        >
+                          <option value="">Gallery only</option>
+                          {destinations.map((destination) => (
+                            <optgroup key={destination.id} label={destination.n}>
+                              {destination.l.map((highlight) => (
+                                <option
+                                  key={`${destination.id}::${highlight}`}
+                                  value={`${destination.id}::${highlight}`}
+                                >
+                                  {highlight}
+                                </option>
+                              ))}
+                            </optgroup>
                           ))}
-                        </optgroup>
-                      ))}
-                    </select>
+                        </select>
+                      </div>
+                      <Button variant="forest" type="submit" className="form-wide" disabled={busy}>
+                        {busy ? "Working…" : "Upload photo"}
+                      </Button>
+                    </div>
+                    <p className="admin-note">
+                      Choose a destination highlight to show these photos there as well as in the
+                      main gallery. You can select several images at once; the caption, description
+                      and placement apply to all selected files.
+                    </p>
+                  </form>
+                  {notice && (
+                    <p className="admin-notice" role="status">
+                      {notice}
+                    </p>
+                  )}
+                  {error && (
+                    <p className="admin-error" role="alert">
+                      {error}
+                    </p>
+                  )}
+                  <div className="admin-photo-list">
+                    {photos.map((photo, index) => (
+                      <article className="admin-photo" key={photo.id}>
+                        <img src={galleryPhotoUrl(photo.storage_path)} alt={photo.alt_text} />
+                        <div className="admin-photo-info">
+                          <strong>{photo.caption}</strong>
+                          <span>{photo.alt_text}</span>
+                          {photo.destination_id && photo.highlight && (
+                            <span>
+                              Also shown in{" "}
+                              {destinations.find((item) => item.id === photo.destination_id)?.n ??
+                                photo.destination_id}
+                              : {photo.highlight}
+                            </span>
+                          )}
+                        </div>
+                        <div className="admin-photo-actions">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            aria-label={`Move ${photo.caption} up`}
+                            title="Move up"
+                            disabled={busy || index === 0}
+                            onClick={() => void movePhoto(index, -1)}
+                          >
+                            <ArrowUp />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            aria-label={`Move ${photo.caption} down`}
+                            title="Move down"
+                            disabled={busy || index === photos.length - 1}
+                            onClick={() => void movePhoto(index, 1)}
+                          >
+                            <ArrowDown />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            aria-label={`Remove ${photo.caption}`}
+                            title="Delete photo"
+                            disabled={busy}
+                            onClick={() => void removePhoto(photo)}
+                          >
+                            <Trash2 />
+                          </Button>
+                        </div>
+                      </article>
+                    ))}
                   </div>
-                  <Button variant="forest" type="submit" className="form-wide" disabled={busy}>
-                    {busy ? "Working…" : "Upload photo"}
-                  </Button>
-                </div>
-                <p className="admin-note">
-                  Choose a destination highlight to show these photos there as well as in the main
-                  gallery. You can select several images at once; the caption, description and
-                  placement apply to all selected files.
-                </p>
-              </form>
-              {notice && (
-                <p className="admin-notice" role="status">
-                  {notice}
-                </p>
+                </>
               )}
-              {error && (
-                <p className="admin-error" role="alert">
-                  {error}
-                </p>
-              )}
-              <div className="admin-photo-list">
-                {photos.map((photo, index) => (
-                  <article className="admin-photo" key={photo.id}>
-                    <img src={galleryPhotoUrl(photo.storage_path)} alt={photo.alt_text} />
-                    <div className="admin-photo-info">
-                      <strong>{photo.caption}</strong>
-                      <span>{photo.alt_text}</span>
-                      {photo.destination_id && photo.highlight && (
-                        <span>
-                          Also shown in{" "}
-                          {destinations.find((item) => item.id === photo.destination_id)?.n ??
-                            photo.destination_id}
-                          : {photo.highlight}
-                        </span>
-                      )}
-                    </div>
-                    <div className="admin-photo-actions">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        aria-label={`Move ${photo.caption} up`}
-                        title="Move up"
-                        disabled={busy || index === 0}
-                        onClick={() => void movePhoto(index, -1)}
-                      >
-                        <ArrowUp />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        aria-label={`Move ${photo.caption} down`}
-                        title="Move down"
-                        disabled={busy || index === photos.length - 1}
-                        onClick={() => void movePhoto(index, 1)}
-                      >
-                        <ArrowDown />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        aria-label={`Remove ${photo.caption}`}
-                        title="Delete photo"
-                        disabled={busy}
-                        onClick={() => void removePhoto(photo)}
-                      >
-                        <Trash2 />
-                      </Button>
-                    </div>
-                  </article>
-                ))}
-              </div>
-              </>}
             </>
           )}
           {!signedIn && error && (
