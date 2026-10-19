@@ -19,7 +19,10 @@ import { useSafariDestinations } from "@/lib/use-safari-destinations";
 
 export const Route = createFileRoute("/admin")({
   head: () =>
-    pageHead("Safari and Gallery Admin", "Manage Bushbells Safaris photos and safari packages."),
+    pageHead(
+      "Safari and Gallery Admin",
+      "Manage Bushbells Safaris photos, safari packages and destinations.",
+    ),
   component: AdminPage,
 });
 
@@ -227,7 +230,10 @@ function AdminPage() {
           ) : adminAccess === "denied" ? (
             <div className="enquiry-panel admin-login" role="status">
               <h2>Admin access required</h2>
-              <p>This account does not have permission to manage gallery photos, safaris or destinations.</p>
+              <p>
+                This account does not have permission to manage gallery photos, safaris or
+                destinations.
+              </p>
               <Button variant="outline" onClick={() => void supabase.auth.signOut()}>
                 <LogOut /> Sign out
               </Button>
@@ -384,8 +390,8 @@ function AdminPage() {
                           {photo.destination_id && photo.highlight && (
                             <span>
                               Also shown in{" "}
-                              {currentDestinations.find((item) => item.id === photo.destination_id)?.n ??
-                                photo.destination_id}
+                              {currentDestinations.find((item) => item.id === photo.destination_id)
+                                ?.n ?? photo.destination_id}
                               : {photo.highlight}
                             </span>
                           )}

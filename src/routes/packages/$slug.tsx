@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeading, EnquiryForm } from "@/components/safari-site";
 import { KenyaRouteMap, type RouteStop } from "@/components/kenya-route-map";
-import { packages, pageHead, packageImage, destinations } from "@/lib/safaris";
+import { packages, pageHead, packageImage } from "@/lib/safaris";
 import { useSafariPackages } from "@/lib/use-safari-packages";
+import { useSafariDestinations } from "@/lib/use-safari-destinations";
 export const Route = createFileRoute("/packages/$slug")({
   loader: ({ params }) => {
     return packages.find((p) => p.id === params.slug);
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/packages/$slug")({
 function Page() {
   const loadedPackage = Route.useLoaderData();
   const { safaris, loaded } = useSafariPackages();
+  const destinations = useSafariDestinations();
   const slug = Route.useParams().slug;
   const p = safaris.find((safari) => safari.id === slug) ?? loadedPackage;
   if (!p) {

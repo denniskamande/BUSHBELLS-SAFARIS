@@ -62,5 +62,6 @@ export async function deleteManagedDestination(id: string) {
 }
 
 export function notifyDestinationChange() {
-  if (typeof window !== "undefined") window.dispatchEvent(new Event("managed-destinations-updated"));
+  if (typeof window !== "undefined")
+    window.dispatchEvent(new Event("managed-destinations-updated"));
 }

@@ -1,10 +1,11 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHeading, CTA, PackageCard } from "@/components/safari-site";
-import { destinations, pageHead, destinationImage, whatsapp } from "@/lib/safaris";
+import { pageHead, destinationImage, whatsapp } from "@/lib/safaris";
 import { useSafariPackages } from "@/lib/use-safari-packages";
+import { getSafariDestinations, useSafariDestinations } from "@/lib/use-safari-destinations";
 import {
   galleryPhotoUrl,
   getSupabaseClient,
@@ -18,7 +19,7 @@ import flyingSafariPhoto from "@/assets/experiences/flying-safari.jpg";
 import culturePhoto from "@/assets/experiences/maasai-culture.jpg";
 import hikingPhoto from "@/assets/experiences/mount-kenya-hike.jpg";
 
-function highlightPhoto(destinationId: string, highlight: string) {
+function highlightPhoto(destinationId: string, highlight: string, coverImage?: string) {
   const text = highlight.toLowerCase();
   if (text.includes("balloon")) return balloonPhoto;
   if (
@@ -62,14 +63,13 @@ function highlightPhoto(destinationId: string, highlight: string) {
     text.includes("migration")
   )
     return gameDrivePhoto;
-  return destinationImage(destinationId) ?? gameDrivePhoto;
+  return destinationImage(destinationId, coverImage) ?? gameDrivePhoto;
 }
 
 export const Route = createFileRoute("/destinations/$slug")({
-  loader: ({ params }) => {
-    const d = destinations.find((d) => d.id === params.slug);
-    if (!d) throw notFound();
-    return d;
+  loader: async ({ params }) => {
+    const destinations = await getSafariDestinations();
+    return destinations.find((d) => d.id === params.slug);
   },
   head: ({ loaderData }) =>
     pageHead(loaderData?.n ?? "Destination", loaderData?.d ?? "Discover East Africa."),
@@ -77,13 +77,16 @@ export const Route = createFileRoute("/destinations/$slug")({
 });
 function Page() {
   const { safaris } = useSafariPackages();
-  const d = Route.useLoaderData();
+  const destinations = useSafariDestinations();
+  const loadedDestination = Route.useLoaderData();
+  const slug = Route.useParams().slug;
+  const d = destinations.find((destination) => destination.id === slug) ?? loadedDestination;
   const [destinationPhotos, setDestinationPhotos] = useState<GalleryPhoto[]>([]);
-  const image = destinationImage(d.id);
-  const related = safaris.filter((p) => p.ds.includes(d.id));
+  const image = d ? destinationImage(d.id, d.imageUrl) : undefined;
+  const related = d ? safaris.filter((p) => p.ds.includes(d.id)) : [];
 
   useEffect(() => {
-    if (!getSupabaseClient()) return;
+    if (!d || !getSupabaseClient()) return;
     let active = true;
     void listDestinationPhotos(d.id).then(({ data }) => {
       if (active) setDestinationPhotos((data ?? []) as GalleryPhoto[]);
@@ -91,7 +94,18 @@ function Page() {
     return () => {
       active = false;
     };
-  }, [d.id]);
+  }, [d?.id]);
+
+  if (!d) {
+    return (
+      <main>
+        <PageHeading title="Destination" description="Loading destination details…" />
+        <section className="section">
+          <div className="wrap">This destination could not be found.</div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main>
@@ -133,7 +147,11 @@ function Page() {
                           />
                         ))
                       ) : (
-                        <img src={highlightPhoto(d.id, highlight)} alt="" loading="lazy" />
+                        <img
+                          src={highlightPhoto(d.id, highlight, d.imageUrl)}
+                          alt=""
+                          loading="lazy"
+                        />
                       )}
                     </div>
                     <span>{highlight}</span>

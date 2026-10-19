@@ -10,7 +10,13 @@ import {
   saveManagedDestinations,
 } from "@/lib/destination-service";
 import { listManagedPackages } from "@/lib/package-service";
-import { galleryPhotoUrl, listGalleryPhotos, uploadGalleryPhoto, type GalleryPhoto } from "@/lib/gallery-service";
+import { operatorTours } from "@/lib/operator-tours";
+import {
+  galleryPhotoUrl,
+  listGalleryPhotos,
+  uploadGalleryPhoto,
+  type GalleryPhoto,
+} from "@/lib/gallery-service";
 
 function blankDestination(): SafariDestination {
   return {
@@ -115,7 +121,9 @@ export function DestinationManager() {
       updateDraft("imageUrl", galleryPhotoUrl(photo.storage_path));
       setNotice("Photo uploaded and selected. Save the destination to publish it.");
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Could not upload the destination photo.");
+      setError(
+        reason instanceof Error ? reason.message : "Could not upload the destination photo.",
+      );
     } finally {
       setBusy(false);
     }
@@ -144,7 +152,7 @@ export function DestinationManager() {
       d: draft.d.trim(),
       b: draft.b.trim(),
       l: highlights,
-      imageUrl: draft.imageUrl || undefined,
+      imageUrl: draft.imageUrl ?? "",
     };
     setBusy(true);
     setError("");
@@ -175,7 +183,8 @@ export function DestinationManager() {
     try {
       const { data: safaris, error: safariError } = await listManagedPackages();
       if (safariError) throw safariError;
-      if (safaris?.some((safari) => safari.ds.includes(selected.id))) {
+      const safariCatalogue = safaris?.length ? safaris : operatorTours;
+      if (safariCatalogue.some((safari) => safari.ds.includes(selected.id))) {
         setError(
           "This destination is used by one or more safaris. Remove it from those safari itineraries first, then try again.",
         );
@@ -200,7 +209,9 @@ export function DestinationManager() {
       <div className="admin-toolbar">
         <div>
           <h2 id="destination-manager-title">Manage destinations</h2>
-          <p>Add places, edit their details and highlights, choose photos, or remove destinations.</p>
+          <p>
+            Add places, edit their details and highlights, choose photos, or remove destinations.
+          </p>
         </div>
         <Button variant="forest" disabled={busy || loading} onClick={() => chooseDestination("")}>
           <Plus /> New destination

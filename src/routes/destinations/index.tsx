@@ -2,16 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PageHeading, DestinationCard, CTA } from "@/components/safari-site";
-import { destinations, pageHead } from "@/lib/safaris";
+import { pageHead } from "@/lib/safaris";
+import { useSafariDestinations } from "@/lib/use-safari-destinations";
 export const Route = createFileRoute("/destinations/")({
   head: () =>
-    pageHead(
-      "Destinations",
-      `Discover ${destinations.length} destinations across Kenya, Uganda and Tanzania.`,
-    ),
+    pageHead("Destinations", "Discover safari destinations across Kenya, Uganda and Tanzania."),
   component: Page,
 });
 function Page() {
+  const destinations = useSafariDestinations();
   const [country, setCountry] = useState("All");
   const [query, setQuery] = useState("");
   const list = destinations.filter(

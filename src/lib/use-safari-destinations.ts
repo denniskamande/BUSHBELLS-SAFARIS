@@ -6,7 +6,7 @@ let destinationRequest: Promise<SafariDestination[]> | undefined;
 
 async function loadDestinations() {
   destinationRequest ??= listManagedDestinations()
-    .then(({ data }) => data?.length ? data : bundledDestinations)
+    .then(({ data }) => data ?? bundledDestinations)
     .catch(() => bundledDestinations);
   return destinationRequest;
 }
