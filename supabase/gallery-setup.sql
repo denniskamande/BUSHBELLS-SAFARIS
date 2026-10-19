@@ -78,7 +78,7 @@ values (
   'gallery',
   true,
   15728640,
-  array['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'video/mp4', 'video/webm']
+  array['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif', 'video/mp4', 'video/webm']
 )
 on conflict (id) do update set
   public = excluded.public,

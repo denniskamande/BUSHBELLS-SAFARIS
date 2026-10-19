@@ -338,7 +338,7 @@ export function DestinationManager() {
                 <input
                   id="destination-cover-upload"
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,image/avif"
+                  accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/heic,image/heif"
                   disabled={busy}
                   onChange={(event) => {
                     const file = event.currentTarget.files?.[0];

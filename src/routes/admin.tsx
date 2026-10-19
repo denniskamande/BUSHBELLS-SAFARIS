@@ -296,13 +296,14 @@ function AdminPage() {
                     <div className="form-grid">
                       <div className="form-wide">
                         <label htmlFor="gallery-files">
-                          Choose photos or videos (up to 15 MB each)
+                          Choose photos or videos (large photos compress automatically; 15 MB upload
+                          limit)
                         </label>
                         <input
                           id="gallery-files"
                           name="photos"
                           type="file"
-                          accept="image/jpeg,image/png,image/webp,image/avif,video/mp4,video/webm"
+                          accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/heic,image/heif,video/mp4,video/webm"
                           multiple
                           required
                         />
