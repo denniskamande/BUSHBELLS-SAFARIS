@@ -1,4 +1,5 @@
 -- Bushbells Safaris gallery: public viewing, explicitly approved admin editing.
+-- You can edit photos in the packages, destinations and gallery. Supabase.
 create table if not exists public.gallery_admins (
   user_id uuid primary key references auth.users(id) on delete cascade,
   created_at timestamptz not null default now()
