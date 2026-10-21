@@ -73,6 +73,8 @@ Replace bundled photographs with images you have permission to use. Keep the exi
 
 Gallery uploads require a Supabase project. Follow [SUPABASE_SETUP.md](SUPABASE_SETUP.md), then copy `.env.example` to `.env.local` and provide the project URL and publishable key. Do not put a Supabase service-role key in a browser environment variable.
 
+You can update destinations,gallery and packages from the admin page. website. com/admin/. No need to code that
+
 ## Production build
 
 ```bash
